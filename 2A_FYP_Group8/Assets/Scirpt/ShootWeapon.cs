@@ -8,6 +8,7 @@ public class ShootWeapon : MonoBehaviour
     public GameObject chamber = null;
     public List<string> GunTag;
     public bool AutoFire;
+    public bool bolt;
     public bool CanUse;
     public float ShootSpeed = 600f;
     public List<string> GunPartTag;
@@ -25,6 +26,8 @@ public class ShootWeapon : MonoBehaviour
     GameObject Fireposition = null;
     public AudioClip ShootSound;
     GameObject Player;
+    bool Shooted;
+    bool bolted;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +63,7 @@ public class ShootWeapon : MonoBehaviour
         {
             GameObject PartofGun = Instantiate(GunParts[i], GunPartPos[i].position, GunPartPos[i].rotation);
             PartofGun.transform.parent = GunPartPos[i];
+            PartofGun.transform.localScale = GunPartPos[i].localScale;
             ShowGunPart.Add(PartofGun);
         }
     }
@@ -71,11 +75,42 @@ public class ShootWeapon : MonoBehaviour
             if (ShootCount >= ShootSp)
             {
                 ShootCount = 0;
-                shootBu(); //Shooting
+                for (int i = 0; i < chamber.GetComponent<Bullet>().BulletNum; i++)
+                {
+                    shootBu(); //Shooting
+                }
+                chamber = Magazine.GetComponent<GunPart>().Ammo[0];
+                Magazine.GetComponent<GunPart>().PullupAmmo();
             }
         }
-    }
 
+        if (bolt == true && bolted != true)
+        {
+            if (Shooted != true)
+            {
+                bolted = true;
+                for (int i = 0; i < chamber.GetComponent<Bullet>().BulletNum; i++)
+                {
+                    shootBu(); //Shooting
+                }
+                chamber = Magazine.GetComponent<GunPart>().Ammo[0];
+                Magazine.GetComponent<GunPart>().PullupAmmo();
+            }
+        } 
+        else if (bolted == true)
+        {
+            if (Shooted != true)
+            {
+                PullBolt();
+            }
+        }
+
+        Shooted = true;
+    }
+    public void StopShoot()
+    {
+        Shooted = false;
+    }
     void shootBu()
     {
         Quaternion direction = shootposition.transform.rotation;
@@ -85,8 +120,7 @@ public class ShootWeapon : MonoBehaviour
         GameObject ShootedBullet = Instantiate(chamber, shootposition.transform.position, direction);
         Rigidbody ShootedBulletRB = ShootedBullet.GetComponent<Rigidbody>();
         ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
-        chamber = Magazine.GetComponent<GunPart>().Ammo[0];
-        Magazine.GetComponent<GunPart>().PullupAmmo();
+        Destroy(ShootedBullet, 7f);
         Audio.PlayOneShot(ShootSound);
         Player.GetComponent<ShootSystem>().Recoil(FixedRecoilForce);
     }
@@ -102,6 +136,11 @@ public class ShootWeapon : MonoBehaviour
                 break;
             }
         }
+    }
+
+    void PullBolt()
+    {
+        bolted = false;
     }
 
     void CheckCanUse()

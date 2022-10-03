@@ -35,7 +35,15 @@ public class ShootSystem : MonoBehaviour
                 NowWeapon.GetComponent<ShootWeapon>().Shoot();
             }
         }
-       
+        if (Input.GetButtonUp("Fire1"))
+        {
+            Debug.Log("Pull Fire1");
+            if (NowWeapon != null)
+            {
+                NowWeapon.GetComponent<ShootWeapon>().StopShoot();
+            }
+        }
+
     }
 
     public void Recoil(float GunForce)

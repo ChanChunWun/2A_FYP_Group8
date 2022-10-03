@@ -9,15 +9,6 @@ public class Bullet : MonoBehaviour
     public float Damage;
     public float AddRecoil = 0f;
     public float AddAccuracy = 0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int BulletNum = 1;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
