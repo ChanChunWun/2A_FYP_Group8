@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +11,8 @@ public class TurretSystem : MonoBehaviour
     public Transform[] CamerPos;
     public Transform AllTurretPos;
     public Transform AllWeaponPos;
+    public float Depression = 8f;   //俯角
+    public float Elevation = 10f;   //仰角
     GameObject User;
     int UsingNo = 0;
     float xRotat = 0;
@@ -36,7 +38,7 @@ public class TurretSystem : MonoBehaviour
     public void ControlTurret(float MouseY, float MouseX)
     {
         xRotat -= MouseY;
-        xRotat = Mathf.Clamp(xRotat, -80, 8);
+        xRotat = Mathf.Clamp(xRotat, -Elevation, Depression);
         AllWeaponPos.transform.localRotation = Quaternion.Euler(xRotat, 0f, 0f);
         AllTurretPos.transform.Rotate(Vector3.up * MouseX);
     }
