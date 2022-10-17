@@ -16,12 +16,14 @@ public class TurretWeaponSystem : MonoBehaviour
     float ShootSp;
     float ShootCount;
     bool CantUse = false;
+    public GameObject FireEffect;
     public AudioClip ShootSound;
     public AudioClip ReloadSound;
 
     // Start is called before the first frame update
     void Start()
     {
+        Audio = GetComponent<AudioSource>();
         ShootSp = 1 / (ShootSpeed / 60);
         AmmoNum = MaxAmmoNum;
         Deviation += BulletOj.GetComponent<Bullet>().AddAccuracy;
@@ -60,6 +62,9 @@ public class TurretWeaponSystem : MonoBehaviour
                         Rigidbody ShootedBulletRB = ShootedBullet.GetComponent<Rigidbody>();
                         ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
                         Destroy(ShootedBullet, 5f);
+                        Audio.PlayOneShot(ShootSound);
+                        GameObject fire = Instantiate(FireEffect, FirePos.transform.position, FirePos.transform.rotation);
+                        Destroy(fire, 0.1f);
                         AmmoNum--;
                         //Audio.PlayOneShot(ShootSound);
                     }
