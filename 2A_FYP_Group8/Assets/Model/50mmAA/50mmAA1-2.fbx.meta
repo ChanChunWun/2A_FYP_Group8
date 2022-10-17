@@ -1,14 +1,22 @@
 fileFormatVersion: 2
-guid: f266b7c1e37b6fd47a030cf3557233e3
+guid: dba099761f182b146b85248a1ec99931
 ModelImporter:
   serializedVersion: 21100
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 1827226128182048838
+    second: Take 001
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Glass
     second: {fileID: 2100000, guid: da95182551e36b74b9b4a680a30b7dc5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mag
+    second: {fileID: 2100000, guid: 8f5e198e5b4a091479eec4a6ec70479f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -49,6 +57,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Material #352
     second: {fileID: 2100000, guid: 08fd16c458a2d64419eca22a4e58cfd8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wan
+    second: {fileID: 2100000, guid: b564e1e6d6c761c40a179e8c5840795d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
