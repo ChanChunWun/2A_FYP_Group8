@@ -9,6 +9,7 @@ public class TurretSystem : MonoBehaviour
     public List<GameObject> TurretObject;
     public List<GameObject> WeaponPos;
     public Transform[] CamerPos;
+    public Transform[] Heads;
     public Transform AllTurretPos;
     public Transform AllWeaponPos;
     public float Depression = 8f;   //俯角
@@ -40,11 +41,18 @@ public class TurretSystem : MonoBehaviour
         xRotat -= MouseY;
         xRotat = Mathf.Clamp(xRotat, -Elevation, Depression);
         AllWeaponPos.transform.localRotation = Quaternion.Euler(xRotat, 0f, 0f);
+        for (int i = 0; i < Heads.Length; i++)
+        {
+            Heads[i].transform.localRotation = Quaternion.Euler(xRotat, 0f, 0f);
+        }
         AllTurretPos.transform.Rotate(Vector3.up * MouseX);
     }
 
-    public void Reload()
+    public void SetUseNo(int n)
     {
-        TurretObject[UsingNo].GetComponent<TurretWeaponSystem>().Reload();
+        if (n-1 <= TurretObject.Count)
+        {
+            UsingNo = n - 1;
+        }
     }
 }

@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        if (ShowCount < 0.02f)
+        if (ShowCount < 0.0001f)
         {
             ShowCount += Time.deltaTime;
             light.SetActive(false);

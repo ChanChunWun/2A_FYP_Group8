@@ -11,21 +11,21 @@ public class TurretWeaponSystem : MonoBehaviour
     [SerializeField]
     private float Deviation = 0.001f;
     public GameObject BulletOj;
-    public int MaxAmmoNum = 50;
-    int AmmoNum = 0;
+    public float AddHeat = 0.01f;
+    float Heat = 0;
     float ShootSp;
     float ShootCount;
     bool CantUse = false;
     public GameObject FireEffect;
     public AudioClip ShootSound;
     public AudioClip ReloadSound;
+    float CoolTimeCount = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         Audio = GetComponent<AudioSource>();
         ShootSp = 1 / (ShootSpeed / 60);
-        AmmoNum = MaxAmmoNum;
         Deviation += BulletOj.GetComponent<Bullet>().AddAccuracy;
     }
 
@@ -36,57 +36,80 @@ public class TurretWeaponSystem : MonoBehaviour
         {
             ShootCount += Time.deltaTime;
         }
-
-        if (AmmoNum == 0)
+        if (CoolTimeCount < 5)
         {
-            CantUse = true;
+            CoolTimeCount += Time.deltaTime;
         }
+        CoolDown();
     }
 
     public void Shoot(GameObject Player, Transform shootposition)
     {
         if (ShootCount >= ShootSp)
         {
-            if (AmmoNum > 0)
+            if (CantUse != true)
             {
-                if (CantUse != true)
+                ShootCount = 0;
+                Heat += AddHeat;
+                for (int i = 0; i < BulletOj.GetComponent<Bullet>().BulletNum; i++)
                 {
-                    for (int i = 0; i < BulletOj.GetComponent<Bullet>().BulletNum; i++)
-                    {
-                        ShootCount = 0;
-                        Quaternion direction = shootposition.transform.rotation;
-                        direction.x += Random.Range(-Deviation, Deviation);
-                        direction.y += Random.Range(-Deviation, Deviation);
-                        direction.z += Random.Range(-Deviation, Deviation);
-                        GameObject ShootedBullet = Instantiate(BulletOj, shootposition.transform.position, direction);
-                        Rigidbody ShootedBulletRB = ShootedBullet.GetComponent<Rigidbody>();
-                        ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
-                        Destroy(ShootedBullet, 5f);
-                        Audio.PlayOneShot(ShootSound);
-                        GameObject fire = Instantiate(FireEffect, FirePos.transform.position, FirePos.transform.rotation);
-                        Destroy(fire, 0.1f);
-                        AmmoNum--;
-                        //Audio.PlayOneShot(ShootSound);
-                    }
+                    Quaternion direction = shootposition.transform.rotation;
+                    direction.x += Random.Range(-Deviation, Deviation);
+                    direction.y += Random.Range(-Deviation, Deviation);
+                    direction.z += Random.Range(-Deviation, Deviation);
+                    GameObject ShootedBullet = Instantiate(BulletOj, shootposition.transform.position, direction);
+                    Rigidbody ShootedBulletRB = ShootedBullet.GetComponent<Rigidbody>();
+                    ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
+                    Destroy(ShootedBullet, 5f);
+                    Audio.PlayOneShot(ShootSound);
+                    GameObject fire = Instantiate(FireEffect, FirePos.transform.position, FirePos.transform.localRotation);
+                    fire.transform.SetParent(FirePos);
+                    Destroy(fire, 0.1f);
+                    //Audio.PlayOneShot(ShootSound);
                 }
-            }
-            else
-            {
-                Reload();
+                CoolTimeCount = 0;
             }
             
         }
     }
 
-    public void Reload()
+    void CoolDown()
     {
-        Debug.Log("Reload");
-        //Anim.Play("Reload")
-        AmmoNum = MaxAmmoNum;
-        CantUse = false;
+        if (Heat < 0)
+        {
+            Heat = 0;
+        }
+        Debug.Log("Cool");
+        if (Heat >= 1)
+        {
+            CantUse = true;
+            if (CoolTimeCount >= 3f)
+            {
+                if (Heat > 0)
+                {
+                    Heat -= AddHeat * 5 * Time.deltaTime;
+                }
+            }
+        }
+        else if (Heat < 1)
+        {
+            CoolTimeCount += Time.deltaTime;
+            if (CoolTimeCount >= 0.75f)
+            {
+                if (Heat > 0)
+                {
+                    Heat -= AddHeat * 5 * Time.deltaTime;
+                }
+            }
+        }
+
+        if (Heat == 0)
+        {
+            CantUse = false;
+        }
     }
 
-    public void PlayReloadsound()
+    public void PlayCoolsound()
     {
 
     }

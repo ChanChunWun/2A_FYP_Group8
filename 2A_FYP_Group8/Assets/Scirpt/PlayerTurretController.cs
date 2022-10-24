@@ -54,9 +54,14 @@ public class PlayerTurretController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Turret.GetComponent<TurretSystem>().Reload();
+            ChangeWeapon(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            ChangeWeapon(2);
         }
     }
 
@@ -66,5 +71,8 @@ public class PlayerTurretController : MonoBehaviour
         gameObject.transform.localPosition = new Vector3(0, 0, 0);
     }
 
-    
+    void ChangeWeapon(int No)
+    {
+        Turret.GetComponent<TurretSystem>().SetUseNo(No);
+    }
 }
