@@ -10,6 +10,7 @@ public class TurretWeaponSystem : MonoBehaviour
     private float ShootSpeed = 450f;
     [SerializeField]
     private float Deviation = 0.001f;
+    public List<GameObject> HeatBarrel;
     public GameObject BulletOj;
     public float AddHeat = 0.01f;
     float Heat = 0;
@@ -62,10 +63,14 @@ public class TurretWeaponSystem : MonoBehaviour
                     ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
                     Destroy(ShootedBullet, 5f);
                     Audio.PlayOneShot(ShootSound);
-                    GameObject fire = Instantiate(FireEffect, FirePos.transform.position, FirePos.transform.localRotation);
+                    GameObject fire = Instantiate(FireEffect, FirePos.transform.position, FirePos.transform.rotation);
                     fire.transform.SetParent(FirePos);
                     Destroy(fire, 0.1f);
                     //Audio.PlayOneShot(ShootSound);
+                }
+                for (int i = 0; i < HeatBarrel.Count; i++)
+                {
+                    HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.b, Heat);
                 }
                 CoolTimeCount = 0;
             }
@@ -78,6 +83,10 @@ public class TurretWeaponSystem : MonoBehaviour
         if (Heat < 0)
         {
             Heat = 0;
+            for (int i = 0; i < HeatBarrel.Count; i++)
+            {
+                HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.b, Heat);
+            }
         }
         Debug.Log("Cool");
         if (Heat >= 1)
@@ -88,6 +97,10 @@ public class TurretWeaponSystem : MonoBehaviour
                 if (Heat > 0)
                 {
                     Heat -= AddHeat * 5 * Time.deltaTime;
+                    for (int i = 0; i < HeatBarrel.Count; i++)
+                    {
+                        HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.b, Heat);
+                    }
                 }
             }
         }
@@ -99,6 +112,10 @@ public class TurretWeaponSystem : MonoBehaviour
                 if (Heat > 0)
                 {
                     Heat -= AddHeat * 5 * Time.deltaTime;
+                    for (int i = 0; i < HeatBarrel.Count; i++)
+                    {
+                        HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.b, Heat);
+                    }
                 }
             }
         }
