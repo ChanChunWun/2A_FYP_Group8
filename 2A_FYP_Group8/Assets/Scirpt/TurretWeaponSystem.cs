@@ -5,7 +5,8 @@ using UnityEngine;
 public class TurretWeaponSystem : MonoBehaviour
 {
     AudioSource Audio;
-    public Transform FirePos;
+    public List<Transform> FirePos;
+    int FireCount = 0;
     [SerializeField]
     private float ShootSpeed = 450f;
     [SerializeField]
@@ -13,6 +14,8 @@ public class TurretWeaponSystem : MonoBehaviour
     public List<GameObject> HeatBarrel;
     public GameObject BulletOj;
     public float AddHeat = 0.01f;
+    public float CoolAdd = 0.02f;
+    public float FullHeatCoolTime = 3f;
     float Heat = 0;
     float ShootSp;
     float ShootCount;
@@ -63,10 +66,18 @@ public class TurretWeaponSystem : MonoBehaviour
                     ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
                     Destroy(ShootedBullet, 5f);
                     Audio.PlayOneShot(ShootSound);
-                    GameObject fire = Instantiate(FireEffect, FirePos.transform.position, FirePos.transform.rotation);
-                    fire.transform.SetParent(FirePos);
-                    Destroy(fire, 0.1f);
                     //Audio.PlayOneShot(ShootSound);
+                }
+                GameObject fire = Instantiate(FireEffect, FirePos[FireCount].transform.position, FirePos[FireCount].transform.rotation);
+                fire.transform.SetParent(FirePos[FireCount]);
+                Destroy(fire, 0.1f);
+                if (FireCount < (FirePos.Count - 1))
+                {
+                    FireCount++;
+                }
+                else
+                {
+                    FireCount = 0;
                 }
                 for (int i = 0; i < HeatBarrel.Count; i++)
                 {
@@ -92,11 +103,11 @@ public class TurretWeaponSystem : MonoBehaviour
         if (Heat >= 1)
         {
             CantUse = true;
-            if (CoolTimeCount >= 3f)
+            if (CoolTimeCount >= FullHeatCoolTime)
             {
                 if (Heat > 0)
                 {
-                    Heat -= AddHeat * 5 * Time.deltaTime;
+                    Heat -= CoolAdd * 5 * Time.deltaTime;
                     for (int i = 0; i < HeatBarrel.Count; i++)
                     {
                         HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.b, Heat);
@@ -111,7 +122,7 @@ public class TurretWeaponSystem : MonoBehaviour
             {
                 if (Heat > 0)
                 {
-                    Heat -= AddHeat * 5 * Time.deltaTime;
+                    Heat -= CoolAdd * 5 * Time.deltaTime;
                     for (int i = 0; i < HeatBarrel.Count; i++)
                     {
                         HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[0].color.b, Heat);
@@ -131,5 +142,9 @@ public class TurretWeaponSystem : MonoBehaviour
 
     }
 
+    public float GetHeat()
+    {
+        return Heat;
+    }
     
 }

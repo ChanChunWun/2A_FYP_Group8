@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurretSystem : MonoBehaviour
 {
     public float ZoomFoV = 20;
+    public bool HeavyTurret = false;
     public Transform ShootPos;
     public List<GameObject> TurretObject;
     public List<GameObject> WeaponPos;
+    public Image[] HeatList;
     public Transform[] CamerPos;
     public Transform[] Heads;
     public Transform AllTurretPos;
@@ -17,11 +20,23 @@ public class TurretSystem : MonoBehaviour
     GameObject User;
     int UsingNo = 0;
     float xRotat = 0;
+    List<GameObject> ShowWeapons = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        for (int i = 0; i < TurretObject.Count; i++)
+        {
+            if (TurretObject[i] != null)
+            {
+                GameObject ShowWeapon = Instantiate(TurretObject[i].GetComponent<ItemWeaponSystem>().GetWeaponWeapon(WeaponPos[i]), WeaponPos[i].transform.position, WeaponPos[i].transform.localRotation);
+                ShowWeapons.Add(ShowWeapon);
+                ShowWeapon.transform.SetParent(WeaponPos[i].transform);
+                ShowWeapon.transform.localPosition = new Vector3(0, 0, 0);
+                ShowWeapon.transform.localRotation = Quaternion.identity;
+                ShowWeapon.transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -33,7 +48,7 @@ public class TurretSystem : MonoBehaviour
     public void Shoot(GameObject Player)
     {
         User = Player;
-        TurretObject[UsingNo].GetComponent<TurretWeaponSystem>().Shoot(Player, ShootPos);
+        ShowWeapons[UsingNo].GetComponent<TurretWeaponSystem>().Shoot(Player, ShootPos);
     }
 
     public void ControlTurret(float MouseY, float MouseX)
@@ -54,5 +69,31 @@ public class TurretSystem : MonoBehaviour
         {
             UsingNo = n - 1;
         }
+    }
+
+    public float GetRightHeat()
+    {
+        float ReturnHeat = 0;
+        for (int i = 0; i < WeaponPos.Count; i++)
+        {
+            if (WeaponPos[i].tag == "RightWeapon")
+            {
+                ReturnHeat = ShowWeapons[i].GetComponent<TurretWeaponSystem>().GetHeat();
+            }
+        }
+        return ReturnHeat;
+    }
+
+    public float GetLeftHeat()
+    {
+        float ReturnHeat = 0;
+        for (int i = 0; i < WeaponPos.Count; i++)
+        {
+            if (WeaponPos[i].tag == "LeftWeapon")
+            {
+                ReturnHeat = ShowWeapons[i].GetComponent<TurretWeaponSystem>().GetHeat();
+            }
+        }
+        return ReturnHeat;
     }
 }

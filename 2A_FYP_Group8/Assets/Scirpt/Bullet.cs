@@ -34,7 +34,10 @@ public class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider col)
     {
-        //col.GetComponent<...>().Hit(Damage, TrueDamage, shooter);
-        Destroy(gameObject);
+        if (col.tag != tag)
+        {
+            //col.GetComponent<...>().Hit(Damage, TrueDamage, shooter);
+            Destroy(gameObject);
+        }
     }
 }

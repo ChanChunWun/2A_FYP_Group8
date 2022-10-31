@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerTurretController : MonoBehaviour
 {
     float MouseX;
     float MouseY;
     public GameObject Turret;
+    public Image RightHeatImage;
+    public Image LeftHeatImage;
     public float ms = 60;
     int CamPos = 0;
     Camera MyCam;
@@ -22,6 +25,7 @@ public class PlayerTurretController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HeatLine(Turret.GetComponent<TurretSystem>().GetRightHeat(), Turret.GetComponent<TurretSystem>().GetLeftHeat());
         MouseX = Input.GetAxis("Mouse X") * ms * Time.deltaTime;
         MouseY = Input.GetAxis("Mouse Y") * ms * Time.deltaTime;
         Turret.GetComponent<TurretSystem>().ControlTurret(MouseY, MouseX);
@@ -74,5 +78,11 @@ public class PlayerTurretController : MonoBehaviour
     void ChangeWeapon(int No)
     {
         Turret.GetComponent<TurretSystem>().SetUseNo(No);
+    }
+
+    void HeatLine(float RightHeat, float LeftHeat)
+    {
+        RightHeatImage.fillAmount = RightHeat;
+        LeftHeatImage.fillAmount = LeftHeat;
     }
 }
