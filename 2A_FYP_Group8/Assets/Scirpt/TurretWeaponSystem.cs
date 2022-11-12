@@ -184,9 +184,12 @@ public class TurretWeaponSystem : MonoBehaviour
 
     void SetHeatMat()
     {
+        Material adds;
         for (int i = 0; i < HeatBarrel.Count; i++)
         {
-            HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.b, 0);
+            adds = HeatBarrel[i].GetComponent<MeshRenderer>().materials[1];
+            HeatMats.Add(adds);
+            HeatBarrel[i].GetComponent<MeshRenderer>().materials[1] = HeatMats[i];
         }
     }
 }
