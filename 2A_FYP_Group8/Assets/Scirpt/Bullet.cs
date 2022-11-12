@@ -32,6 +32,7 @@ public class Bullet : MonoBehaviour
     {
         shooter = Pl;
     }
+
     private void OnTriggerEnter(Collider col)
     {
         if (col.tag != tag)
@@ -39,5 +40,12 @@ public class Bullet : MonoBehaviour
             //col.GetComponent<...>().Hit(Damage, TrueDamage, shooter);
             Destroy(gameObject);
         }
+    }
+
+    public void SetData(float Dam, float TrueDam, float Force)
+    {
+        Damage = Dam;
+        TrueDamage = TrueDam;
+        ShootForce = Force;
     }
 }
