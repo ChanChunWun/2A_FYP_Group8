@@ -31,8 +31,9 @@ public class TurretWeaponSystem : MonoBehaviour
     bool CantUse = false;
     public GameObject FireEffect;
     public AudioClip ShootSound;
-    public AudioClip ReloadSound;
+    public AudioClip ChargeSound;
     float CoolTimeCount = 0;
+    float ChargeCoolTimeCount = 0;
     public bool isCharge;
     public bool haveChargeAnim;
     public float ChargeTime;
@@ -41,6 +42,9 @@ public class TurretWeaponSystem : MonoBehaviour
     public float ForceMult = 1.5f;
     List<Material> HeatMats = new List<Material>();
     bool Charging;
+    Transform Sposition;
+    GameObject MyBullet;
+    GameObject user;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +52,8 @@ public class TurretWeaponSystem : MonoBehaviour
         Audio = GetComponent<AudioSource>();
         ShootSp = 1 / (ShootSpeed / 60);
         Deviation += BulletOj.GetComponent<Bullet>().AddAccuracy;
+        SetHeatMat();
+        MyBullet = BulletOj;
         if (haveChargeAnim)
         {
             anim = GetComponent<Animator>();
@@ -65,33 +71,32 @@ public class TurretWeaponSystem : MonoBehaviour
         {
             CoolTimeCount += Time.deltaTime;
         }
+        if (isCharge == true)
+        {
+            ChargeCoolDown();
+        }
         CoolDown();
     }
 
     public void Shoot(GameObject Player, Transform shootposition)
     {
+        user = Player;
         if (ShootCount >= ShootSp)
         {
             if (CantUse != true)
             {
                 if (isCharge != true)
                 {
+                    
                     ShootCount = 0;
                     Heat += AddHeat;
                     SetBulletData(1, 1, 1);
                     for (int i = 0; i < BulletNum; i++)
                     {
-                        Quaternion direction = shootposition.transform.rotation;
-                        direction.x += Random.Range(-Deviation, Deviation);
-                        direction.y += Random.Range(-Deviation, Deviation);
-                        direction.z += Random.Range(-Deviation, Deviation);
-                        GameObject ShootedBullet = Instantiate(BulletOj, shootposition.transform.position, direction);
-                        Rigidbody ShootedBulletRB = ShootedBullet.GetComponent<Rigidbody>();
-                        ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
-                        Destroy(ShootedBullet, 5f);
-                        Audio.PlayOneShot(ShootSound);
+                        Shoot(shootposition);
                         //Audio.PlayOneShot(ShootSound);
                     }
+                    Audio.PlayOneShot(ShootSound);
                     GameObject fire = Instantiate(FireEffect, FirePos[FireCount].transform.position, FirePos[FireCount].transform.rotation);
                     fire.transform.SetParent(FirePos[FireCount]);
                     Destroy(fire, 0.1f);
@@ -112,10 +117,97 @@ public class TurretWeaponSystem : MonoBehaviour
                 else
                 {
                     ChargeCount += Time.deltaTime;
-                     
+                    ChargeCoolTimeCount = 0;
+                    if (!Audio.isPlaying)
+                    {
+                        Audio.clip = ChargeSound;
+                        Audio.Play();
+                    }
+                    if (haveChargeAnim)
+                    {
+                        anim.SetBool("Charging", true);
+                    }
+                    if (ChargeCount >= ChargeTime)
+                    {
+                        if (haveChargeAnim)
+                        {
+                            anim.SetBool("Charging", false);
+                        }
+                        SetBulletData(DamageMult, TrueDamageMult, ForceMult);
+                        Shoot(shootposition);
+                        ChargeCount = 0;
+                        Heat += 1.1f;
+                        CantUse = true;
+                        GameObject fire = Instantiate(FireEffect, FirePos[FireCount].transform.position, FirePos[FireCount].transform.rotation);
+                        fire.transform.SetParent(FirePos[FireCount]);
+                        Destroy(fire, 0.1f);
+                        if (FireCount < (FirePos.Count - 1))
+                        {
+                            FireCount++;
+                        }
+                        else
+                        {
+                            FireCount = 0;
+                        }
+                        for (int i = 0; i < HeatBarrel.Count; i++)
+                        {
+                            HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.b, Heat);
+                        }
+                        CoolTimeCount = 0;
+                        Audio.PlayOneShot(ShootSound);
+                    }
                 }
             }
-            
+        }
+    }
+
+    public void ChargeNotFullShoot(GameObject Player, Transform shootposition)
+    {
+        if (ChargeCount < ChargeTime && ChargeCount > 0)
+        {
+            if (haveChargeAnim)
+            {
+                anim.SetBool("Charging", false);
+            }
+            Audio.clip = null;
+            Audio.Stop();
+            ChargeCount = 0;
+            ShootCount = 0;
+            SetBulletData(1, 1, 1);
+            Shoot(shootposition);
+            Heat += AddHeat;
+            GameObject fire = Instantiate(FireEffect, FirePos[FireCount].transform.position, FirePos[FireCount].transform.rotation);
+            fire.transform.SetParent(FirePos[FireCount]);
+            Destroy(fire, 0.1f);
+            if (FireCount < (FirePos.Count - 1))
+            {
+                FireCount++;
+            }
+            else
+            {
+                FireCount = 0;
+            }
+            for (int i = 0; i < HeatBarrel.Count; i++)
+            {
+                HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.b, Heat);
+            }
+            Audio.PlayOneShot(ShootSound);
+        }
+    }
+
+    void ChargeCoolDown()
+    {
+        ChargeCoolTimeCount += Time.deltaTime;
+        if (ChargeCoolTimeCount >= 0.1f)
+        {
+            if(ChargeCount > 0)
+            {
+                ChargeCount -= Time.deltaTime * ChargeTime;
+            }
+            else if(ChargeCount < 0)
+            {
+                ChargeCount = 0;
+            }
         }
     }
 
@@ -167,6 +259,18 @@ public class TurretWeaponSystem : MonoBehaviour
         }
     }
 
+    void Shoot(Transform shootpos)
+    {
+        Quaternion direction = shootpos.transform.rotation;
+        direction.x += Random.Range(-Deviation, Deviation);
+        direction.y += Random.Range(-Deviation, Deviation);
+        direction.z += Random.Range(-Deviation, Deviation);
+        GameObject ShootedBullet = Instantiate(MyBullet, shootpos.transform.position, direction);
+        Rigidbody ShootedBulletRB = ShootedBullet.GetComponent<Rigidbody>();
+        ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
+        Destroy(ShootedBullet, 5f);
+    }
+
     public void PlayCoolsound()
     {
 
@@ -179,7 +283,7 @@ public class TurretWeaponSystem : MonoBehaviour
 
     void SetBulletData(float DamMul, float TDamMul, float ForMul)
     {
-        BulletOj.GetComponent<Bullet>().SetData(Damage * DamMul, TrueDamage * TDamMul, FireForce * ForMul);
+        MyBullet.GetComponent<Bullet>().SetData(Damage * DamMul, TrueDamage * TDamMul, FireForce * ForMul);
     }
 
     void SetHeatMat()

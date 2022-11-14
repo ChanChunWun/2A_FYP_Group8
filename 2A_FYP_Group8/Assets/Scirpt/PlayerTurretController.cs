@@ -34,6 +34,10 @@ public class PlayerTurretController : MonoBehaviour
         {
             Turret.GetComponent<TurretSystem>().Shoot(gameObject);
         }
+        if(Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
+        }
 
         if (Input.GetKey(KeyCode.Mouse1))
         {

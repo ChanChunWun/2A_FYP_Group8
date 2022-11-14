@@ -505,6 +505,10 @@ MonoBehaviour:
   - {fileID: 4502014641486281919}
   ShootSpeed: 450
   Deviation: 0.001
+  Damage: 40
+  TrueDamage: 20
+  FireForce: 15
+  BulletNum: 1
   HeatBarrel:
   - {fileID: 4502014640698496461}
   BulletOj: {fileID: 473403345170764600, guid: ca17c1b676d4d8c4f89e33b4f89d9e67, type: 3}
@@ -514,6 +518,12 @@ MonoBehaviour:
   FireEffect: {fileID: 6698719010139250871, guid: 2c99dedadabc6c9409a02b7f5e5ab1b1, type: 3}
   ShootSound: {fileID: 8300000, guid: 64c3339c39e55754385048eb8fb782ce, type: 3}
   ReloadSound: {fileID: 0}
+  isCharge: 0
+  haveChargeAnim: 0
+  ChargeTime: 0
+  DamageMult: 2
+  TrueDamageMult: 2
+  ForceMult: 1.5
 --- !u!82 &4502014641230923668
 AudioSource:
   m_ObjectHideFlags: 0
