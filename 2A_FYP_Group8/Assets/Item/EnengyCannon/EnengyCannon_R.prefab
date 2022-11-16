@@ -668,7 +668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FirePos:
   - {fileID: 8949882268504660771}
-  ShootSpeed: 60
+  ShootSpeed: 20
   Deviation: 0.001
   Damage: 100
   TrueDamage: 150

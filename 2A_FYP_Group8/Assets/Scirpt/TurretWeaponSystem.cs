@@ -45,6 +45,7 @@ public class TurretWeaponSystem : MonoBehaviour
     Transform Sposition;
     GameObject MyBullet;
     GameObject user;
+    float ChargeAnimCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -118,25 +119,18 @@ public class TurretWeaponSystem : MonoBehaviour
                 {
                     ChargeCount += Time.deltaTime;
                     ChargeCoolTimeCount = 0;
-                    if (!Audio.isPlaying)
-                    {
-                        Audio.clip = ChargeSound;
-                        Audio.Play();
-                    }
-                    if (haveChargeAnim)
-                    {
-                        anim.SetBool("Charging", true);
-                    }
+
+
                     if (ChargeCount >= ChargeTime)
                     {
                         if (haveChargeAnim)
                         {
-                            anim.SetBool("Charging", false);
+                            //anim.SetBool("Charging", false);
                         }
                         SetBulletData(DamageMult, TrueDamageMult, ForceMult);
                         Shoot(shootposition);
                         ChargeCount = 0;
-                        Heat += 1.1f;
+                        Heat += 1f;
                         CantUse = true;
                         GameObject fire = Instantiate(FireEffect, FirePos[FireCount].transform.position, FirePos[FireCount].transform.rotation);
                         fire.transform.SetParent(FirePos[FireCount]);
@@ -155,6 +149,20 @@ public class TurretWeaponSystem : MonoBehaviour
                         }
                         CoolTimeCount = 0;
                         Audio.PlayOneShot(ShootSound);
+                    }
+                    else
+                    {
+                        if (!Audio.isPlaying)
+                        {
+                            Audio.clip = ChargeSound;
+                            Audio.Play();
+                        }
+                        if (haveChargeAnim)
+                        {
+                            //anim.SetBool("Charging", true);
+                            ChargeAnimCount += Time.deltaTime * ( 1 / ChargeTime );
+                            anim.SetFloat("Charge", ChargeAnimCount);
+                        }
                     }
                 }
             }
@@ -207,6 +215,20 @@ public class TurretWeaponSystem : MonoBehaviour
             else if(ChargeCount < 0)
             {
                 ChargeCount = 0;
+            }
+            
+            if (haveChargeAnim)
+            {
+                if (ChargeAnimCount > 0)
+                {
+                    ChargeAnimCount -= Time.deltaTime * (1 / ChargeTime);
+                    anim.SetFloat("Charge", ChargeAnimCount);
+                }
+                else if (ChargeAnimCount < 0)
+                {
+                    ChargeAnimCount = 0;
+                    anim.SetFloat("Charge", ChargeAnimCount);
+                }
             }
         }
     }

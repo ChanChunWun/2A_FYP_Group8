@@ -157,7 +157,7 @@ MonoBehaviour:
   HeavyTurret: 0
   ShootPos: {fileID: 2121744051}
   TurretObject:
-  - {fileID: 6243845831517591553, guid: 0598c399301c67740b147077763a29f5, type: 3}
+  - {fileID: 497673181435198566, guid: d8b69eeca41f768458bb5f20a2e9d641, type: 3}
   - {fileID: 6243845831517591553, guid: 0598c399301c67740b147077763a29f5, type: 3}
   WeaponPos:
   - {fileID: 1671263201}
