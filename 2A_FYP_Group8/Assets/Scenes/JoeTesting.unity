@@ -445,6 +445,8 @@ MonoBehaviour:
   DamageMult: 2
   TrueDamageMult: 2
   ForceMult: 1.5
+  ShellOut: {fileID: 0}
+  HaveShell: 0
 --- !u!1 &80271174
 GameObject:
   m_ObjectHideFlags: 0
@@ -2104,6 +2106,8 @@ MonoBehaviour:
   DamageMult: 2
   TrueDamageMult: 2
   ForceMult: 1.5
+  ShellOut: {fileID: 0}
+  HaveShell: 0
 --- !u!1 &2045020212
 GameObject:
   m_ObjectHideFlags: 0
