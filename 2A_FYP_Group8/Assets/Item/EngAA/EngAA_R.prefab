@@ -297,7 +297,7 @@ MonoBehaviour:
   FullHeatCoolTime: 3
   FireEffect: {fileID: 1234151696485902553, guid: 46760ada2323f6b4eaf312ab7a7788d7, type: 3}
   ShootSound: {fileID: 8300000, guid: 645254ff17d7b1641a6ecd29b2e954e6, type: 3}
-  ReloadSound: {fileID: 0}
+  ChargeSound: {fileID: 0}
   isCharge: 0
   haveChargeAnim: 0
   ChargeTime: 0

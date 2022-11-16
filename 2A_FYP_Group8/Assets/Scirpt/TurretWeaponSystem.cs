@@ -46,6 +46,8 @@ public class TurretWeaponSystem : MonoBehaviour
     GameObject MyBullet;
     GameObject user;
     float ChargeAnimCount = 0;
+    public Transform ShellOut;
+    public bool HaveShell;
 
     // Start is called before the first frame update
     void Start()
