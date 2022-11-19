@@ -46,7 +46,8 @@ public class TurretWeaponSystem : MonoBehaviour
     GameObject MyBullet;
     GameObject user;
     float ChargeAnimCount = 0;
-    public Transform ShellOut;
+    public Transform ShellOutPos;
+    public GameObject Shell;
     public bool HaveShell;
 
     // Start is called before the first frame update
@@ -293,6 +294,10 @@ public class TurretWeaponSystem : MonoBehaviour
         Rigidbody ShootedBulletRB = ShootedBullet.GetComponent<Rigidbody>();
         ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
         Destroy(ShootedBullet, 5f);
+        if (HaveShell == true)
+        {
+            ShellOut();
+        }
     }
 
     public void PlayCoolsound()
@@ -319,5 +324,18 @@ public class TurretWeaponSystem : MonoBehaviour
             HeatMats.Add(adds);
             HeatBarrel[i].GetComponent<MeshRenderer>().materials[1] = HeatMats[i];
         }
+    }
+
+    void ShellOut()
+    {
+        Quaternion direction = ShellOutPos.transform.rotation;
+        //direction.x = -direction.x;
+        direction.y = direction.y + 180;
+        //direction.z = -direction.z;
+
+        GameObject ShellOj = Instantiate(Shell, ShellOutPos.transform.position, ShellOutPos.transform.rotation);
+        Rigidbody ShellOjRB = ShellOj.GetComponent<Rigidbody>();
+        ShellOjRB.AddForce(-Vector3.up * 5, ForceMode.Impulse);
+        Destroy(ShellOj, 4.5f);
     }
 }
