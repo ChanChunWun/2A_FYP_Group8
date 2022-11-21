@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerTurretController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerTurretController : MonoBehaviour
     public float ms = 60;
     int CamPos = 0;
     Camera MyCam;
+    bool slowMo = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,51 +27,60 @@ public class PlayerTurretController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HeatLine(Turret.GetComponent<TurretSystem>().GetRightHeat(), Turret.GetComponent<TurretSystem>().GetLeftHeat());
-        MouseX = Input.GetAxis("Mouse X") * ms * Time.deltaTime;
-        MouseY = Input.GetAxis("Mouse Y") * ms * Time.deltaTime;
-        Turret.GetComponent<TurretSystem>().ControlTurret(MouseY, MouseX);
-
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            Turret.GetComponent<TurretSystem>().Shoot(gameObject);
-        }
-        if(Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
+            slowMo = !slowMo;
+            Time.timeScale = slowMo ? 0.15f : 1f;
         }
 
-        if (Input.GetKey(KeyCode.Mouse1))
+        if (Turret != null)
         {
-            if (MyCam.fieldOfView > Turret.GetComponent<TurretSystem>().ZoomFoV)
+            HeatLine(Turret.GetComponent<TurretSystem>().GetRightHeat(), Turret.GetComponent<TurretSystem>().GetLeftHeat());
+            MouseX = Input.GetAxis("Mouse X") * ms * Time.deltaTime;
+            MouseY = Input.GetAxis("Mouse Y") * ms * Time.deltaTime;
+            Turret.GetComponent<TurretSystem>().ControlTurret(MouseY, MouseX);
+
+            if (Input.GetKey(KeyCode.Mouse0))
             {
-                MyCam.fieldOfView -= 500 * Time.deltaTime;
+                Turret.GetComponent<TurretSystem>().Shoot(gameObject);
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
+            }
+
+            if (Input.GetKey(KeyCode.Mouse1))
+            {
+                if (MyCam.fieldOfView > Turret.GetComponent<TurretSystem>().ZoomFoV)
+                {
+                    MyCam.fieldOfView -= 500 * Time.deltaTime;
+                }
+                else
+                {
+                    MyCam.fieldOfView = Turret.GetComponent<TurretSystem>().ZoomFoV;
+                }
             }
             else
             {
-                MyCam.fieldOfView = Turret.GetComponent<TurretSystem>().ZoomFoV;
+                if (MyCam.fieldOfView < 60)
+                {
+                    MyCam.fieldOfView += 500 * Time.deltaTime;
+                }
+                else
+                {
+                    MyCam.fieldOfView = 60;
+                }
             }
-        }
-        else
-        {
-            if (MyCam.fieldOfView < 60)
-            {
-                MyCam.fieldOfView += 500 * Time.deltaTime;
-            }
-            else
-            {
-                MyCam.fieldOfView = 60;
-            }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ChangeWeapon(1);
-        }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                ChangeWeapon(1);
+            }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ChangeWeapon(2);
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                ChangeWeapon(2);
+            }
         }
     }
 
@@ -88,5 +99,12 @@ public class PlayerTurretController : MonoBehaviour
     {
         RightHeatImage.fillAmount = RightHeat;
         LeftHeatImage.fillAmount = LeftHeat;
+    }
+
+    public void SetTurret(GameObject turret1, GameObject Weapon1, GameObject Weapon2)
+    {
+        DontDestroyOnLoad(gameObject);
+        Turret = Instantiate(turret1);
+        SetcamPos();
     }
 }

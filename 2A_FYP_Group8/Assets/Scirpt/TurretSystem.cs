@@ -25,26 +25,15 @@ public class TurretSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < TurretObject.Count; i++)
-        {
-            if (TurretObject[i] != null)
-            {
-                GameObject ShowWeapon = Instantiate(TurretObject[i].GetComponent<ItemWeaponSystem>().GetWeaponWeapon(WeaponPos[i]), WeaponPos[i].transform.position, WeaponPos[i].transform.localRotation);
-                ShowWeapons.Add(ShowWeapon);
-                ShowWeapon.transform.SetParent(WeaponPos[i].transform);
-                ShowWeapon.transform.localPosition = new Vector3(0, 0, 0);
-                ShowWeapon.transform.localRotation = Quaternion.identity;
-                ShowWeapon.transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
+        ShowWeapon();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    
+
     public void Shoot(GameObject Player)
     {
         User = Player;
@@ -71,7 +60,7 @@ public class TurretSystem : MonoBehaviour
 
     public void SetUseNo(int n)
     {
-        if (n-1 <= TurretObject.Count)
+        if (n - 1 <= TurretObject.Count)
         {
             UsingNo = n - 1;
         }
@@ -101,5 +90,27 @@ public class TurretSystem : MonoBehaviour
             }
         }
         return ReturnHeat;
+    }
+
+    public void SetWeapon(GameObject Weapon, int nos)
+    {
+        TurretObject[nos] = Weapon;
+    }
+
+    void ShowWeapon()
+    {
+        for (int i = 0; i < TurretObject.Count; i++)
+        {
+            if (TurretObject[i] != null)
+            {
+                GameObject ShowWeapon = Instantiate(TurretObject[i].GetComponent<ItemWeaponSystem>().GetWeaponWeapon(WeaponPos[i]), WeaponPos[i].transform.position, WeaponPos[i].transform.localRotation);
+                ShowWeapons.Add(ShowWeapon);
+                ShowWeapon.GetComponent<TurretWeaponSystem>().SetData(TurretObject[i].GetComponent<ItemWeaponSystem>().SendWeaponData());
+                ShowWeapon.transform.SetParent(WeaponPos[i].transform);
+                ShowWeapon.transform.localPosition = new Vector3(0, 0, 0);
+                ShowWeapon.transform.localRotation = Quaternion.identity;
+                ShowWeapon.transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
     }
 }

@@ -928,13 +928,16 @@ MonoBehaviour:
   FullHeatCoolTime: 1
   FireEffect: {fileID: 1410002128893771747, guid: 20c754150987c2649a889e682b18d6eb, type: 3}
   ShootSound: {fileID: 8300000, guid: 7df9fd5a72aa67c4da928b5aa248ffa6, type: 3}
-  ReloadSound: {fileID: 0}
+  ChargeSound: {fileID: 0}
   isCharge: 0
   haveChargeAnim: 0
   ChargeTime: 0
   DamageMult: 2
   TrueDamageMult: 2
   ForceMult: 1.5
+  ShellOutPos: {fileID: 0}
+  Shell: {fileID: 0}
+  HaveShell: 0
 --- !u!82 &7557841739547735226
 AudioSource:
   m_ObjectHideFlags: 0

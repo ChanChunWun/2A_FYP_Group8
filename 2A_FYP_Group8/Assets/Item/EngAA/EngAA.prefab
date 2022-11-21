@@ -45,3 +45,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RWeapon: {fileID: 749401080470560058, guid: fc3a8129d4035a44d942675bac51db7e, type: 3}
   LWeapon: {fileID: 5575437292502638044, guid: d3ca679324e37d948a81477a51ccdf86, type: 3}
+  Level: 0
+  MaxLevel: 20
+  ShootSpeed: 1000
+  Deviation: 0.005
+  Damage: 5
+  TrueDamage: 18
+  BulletNum: 1
+  AddHeat: 0.015
+  CoolAdd: 0.05
+  FullHeatCoolTime: 3
+  ChargeTime: 0
+  DamageMult: 2
+  TrueDamageMult: 2
+  ForceMult: 1.5

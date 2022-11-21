@@ -129,7 +129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6602887429797511984}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1663, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7086134084505109730}
@@ -146,7 +146,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.13
+  m_Radius: 0.2
   m_Height: 0.7
   m_Direction: 2
   m_Center: {x: 0, y: 0.003771443, z: 0.08958231}
@@ -165,7 +165,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &961856713820030696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,9 +178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10aa1d85beb726f4da7d98e2130e09fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShootForce: 18
-  Damage: 5
-  TrueDamage: 15
+  ShootForce: 20
+  Damage: 200
+  TrueDamage: 450
   AddAccuracy: 0
   BulletNum: 1
-  light: {fileID: 2692210802079211985}
+  lights: {fileID: 2692210802079211985}

@@ -497,7 +497,7 @@ MonoBehaviour:
   Deviation: 0.001
   Damage: 100
   TrueDamage: 150
-  FireForce: 18
+  FireForce: 20
   BulletNum: 1
   HeatBarrel:
   - {fileID: 8514976545315994940}
@@ -515,7 +515,10 @@ MonoBehaviour:
   ChargeTime: 2.5
   DamageMult: 2
   TrueDamageMult: 2
-  ForceMult: 1.5
+  ForceMult: 1
+  ShellOutPos: {fileID: 0}
+  Shell: {fileID: 0}
+  HaveShell: 0
 --- !u!82 &8514976545517795631
 AudioSource:
   m_ObjectHideFlags: 0

@@ -174,7 +174,7 @@ public class TurretWeaponSystem : MonoBehaviour
 
     public void ChargeNotFullShoot(GameObject Player, Transform shootposition)
     {
-        if (ChargeCount < ChargeTime && ChargeCount > 0)
+        if (ChargeCount < 0.2f && ChargeCount > 0)
         {
             if (haveChargeAnim)
             {
@@ -224,7 +224,7 @@ public class TurretWeaponSystem : MonoBehaviour
             {
                 if (ChargeAnimCount > 0)
                 {
-                    ChargeAnimCount -= Time.deltaTime * (1 / ChargeTime);
+                    ChargeAnimCount -= Time.deltaTime * (1 / ChargeTime / 2);
                     anim.SetFloat("Charge", ChargeAnimCount);
                 }
                 else if (ChargeAnimCount < 0)
@@ -246,7 +246,7 @@ public class TurretWeaponSystem : MonoBehaviour
                 HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.b, Heat);
             }
         }
-        Debug.Log("Cool");
+        //Debug.Log("Cool");
         if (Heat >= 1)
         {
             CantUse = true;
@@ -312,7 +312,7 @@ public class TurretWeaponSystem : MonoBehaviour
 
     void SetBulletData(float DamMul, float TDamMul, float ForMul)
     {
-        MyBullet.GetComponent<Bullet>().SetData(Damage * DamMul, TrueDamage * TDamMul, FireForce * ForMul);
+        MyBullet.GetComponent<Bullet>().SetData(Damage * DamMul, TrueDamage * TDamMul, FireForce);
     }
 
     void SetHeatMat()
@@ -337,5 +337,18 @@ public class TurretWeaponSystem : MonoBehaviour
         Rigidbody ShellOjRB = ShellOj.GetComponent<Rigidbody>();
         ShellOjRB.AddForce(-Vector3.up * 5, ForceMode.Impulse);
         Destroy(ShellOj, 4.5f);
+    }
+
+    public void SetData(object[] datas)
+    {
+        ShootSpeed = (float)datas[0];
+        Deviation = (float)datas[1];
+        Damage = (float)datas[2];
+        TrueDamage = (float)datas[3];
+        AddHeat = (float)datas[4];
+        CoolAdd = (float)datas[5];
+        FullHeatCoolTime = (float)datas[6];
+        DamageMult = (float)datas[7];
+        TrueDamageMult = (float)datas[8];
     }
 }

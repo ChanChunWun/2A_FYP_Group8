@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     public int BulletNum = 1;
     float ShowCount = 0;
     GameObject shooter;
-    public GameObject light;
+    public GameObject lights;
     
 
     private void Update()
@@ -19,11 +19,11 @@ public class Bullet : MonoBehaviour
         if (ShowCount < 0.0001f)
         {
             ShowCount += Time.deltaTime;
-            light.SetActive(false);
+            lights.SetActive(false);
         }
         else
         {
-            light.SetActive(true);
+            lights.SetActive(true);
         }
 
     }
@@ -33,19 +33,45 @@ public class Bullet : MonoBehaviour
         shooter = Pl;
     }
 
-    private void OnTriggerEnter(Collider col)
+    void OnCollisionEnter(Collision col)
     {
-        if (col.tag != tag)
+        object[] damagedata = new object[2];
+        damagedata[0] = Damage;
+        damagedata[1] = TrueDamage;
+        Debug.Log("Hit");
+        if (col.gameObject.tag != gameObject.tag)
         {
-            //col.GetComponent<...>().Hit(Damage, TrueDamage, shooter);
+            Debug.Log("Hit : " + col.gameObject.name);
+            //col.SendMessage("Hit", damagedata);
             Destroy(gameObject);
         }
     }
 
+    
     public void SetData(float Dam, float TrueDam, float Force)
     {
         Damage = Dam;
         TrueDamage = TrueDam;
         ShootForce = Force;
+    }
+
+    void RayGot()
+    {
+        object[] damagedata = new object[2];
+        damagedata[0] = Damage;
+        damagedata[1] = TrueDamage;
+        Debug.Log("Hit");
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, transform.forward * 0.1f);
+        if (Physics.Raycast(ray, out hit, 0.1f))
+        {
+            if (hit.transform.tag != gameObject.tag)
+            {
+                Debug.Log("Hit : " + hit.transform.name);
+                //col.SendMessage("Hit", damagedata);
+                Destroy(gameObject);
+
+            }
+        }
     }
 }
