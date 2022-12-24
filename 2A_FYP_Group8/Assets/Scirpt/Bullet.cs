@@ -12,7 +12,17 @@ public class Bullet : MonoBehaviour
     float ShowCount = 0;
     GameObject shooter;
     public GameObject lights;
-    
+    public bool missile;
+    public float turnTime = 3f;
+    public GameObject target;
+    Rigidbody rb;
+    public float checkAngle = 15;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.AddForce (transform.forward * ShootForce * 10, ForceMode.Impulse);
+    }
 
     private void Update()
     {
@@ -25,7 +35,17 @@ public class Bullet : MonoBehaviour
         {
             lights.SetActive(true);
         }
-
+        IsInAngle();
+        if (missile)
+        {
+            if (target != null)
+            {
+                var rotation = Quaternion.LookRotation(target.transform.position - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * turnTime);
+            }
+            transform.position += transform.forward * ShootForce * Time.deltaTime;
+        }
+        
     }
 
     public void SetShooter(GameObject Pl)
@@ -55,6 +75,12 @@ public class Bullet : MonoBehaviour
         ShootForce = Force;
     }
 
+
+    public void SetTarget(GameObject tar)
+    {
+        target = tar;
+    }
+
     void RayGot()
     {
         object[] damagedata = new object[2];
@@ -72,6 +98,36 @@ public class Bullet : MonoBehaviour
                 Destroy(gameObject);
 
             }
+        }
+    }
+
+    float AngleMin()
+    {
+        return -checkAngle + target.transform.eulerAngles.y;
+    }
+
+    float AngleMax()
+    {
+        return checkAngle + target.transform.eulerAngles.y;
+    }
+
+    void IsInAngle()
+    {
+        if (target != null)
+        {
+            float angle = Vector3.Angle(target.transform.forward, target.transform.position);
+            if (angle >= AngleMin() && angle <= AngleMax())
+            {
+
+            }
+            else
+            {
+                target = null;
+            }
+        }
+        else
+        {
+            
         }
     }
 }
