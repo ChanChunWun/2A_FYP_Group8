@@ -49,6 +49,7 @@ public class TurretWeaponSystem : MonoBehaviour
     public Transform ShellOutPos;
     public GameObject Shell;
     public bool HaveShell;
+    public bool missileLuncher;
 
     // Start is called before the first frame update
     void Start()

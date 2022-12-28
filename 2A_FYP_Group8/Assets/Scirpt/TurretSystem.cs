@@ -46,6 +46,11 @@ public class TurretSystem : MonoBehaviour
         ShowWeapons[UsingNo].GetComponent<TurretWeaponSystem>().ChargeNotFullShoot(Player, ShootPos);
     }
 
+    public void SetUser(GameObject Player)
+    {
+        User = Player;
+    }
+
     public void ControlTurret(float MouseY, float MouseX)
     {
         xRotat -= MouseY;

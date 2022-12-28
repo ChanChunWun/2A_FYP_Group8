@@ -22,6 +22,7 @@ public class PlayerTurretController : MonoBehaviour
         MyCam = GetComponent<Camera>();
         Cursor.lockState = CursorLockMode.None;
         SetcamPos();
+        Turret.SendMessage("SetUser", gameObject);
     }
 
     // Update is called once per frame

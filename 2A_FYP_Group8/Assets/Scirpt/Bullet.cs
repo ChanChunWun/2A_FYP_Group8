@@ -17,11 +17,17 @@ public class Bullet : MonoBehaviour
     public GameObject target;
     Rigidbody rb;
     public float checkAngle = 15;
+    public bool animed;
+    bool Started;
+    Animator anim;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.AddForce (transform.forward * ShootForce * 10, ForceMode.Impulse);
+        if (animed)
+        {
+            anim = GetComponent<Animator>();
+        }
     }
 
     private void Update()
@@ -53,6 +59,11 @@ public class Bullet : MonoBehaviour
         shooter = Pl;
     }
 
+    public void SetTarget(GameObject tar)
+    {
+        target = tar;
+    }
+
     void OnCollisionEnter(Collision col)
     {
         object[] damagedata = new object[2];
@@ -65,6 +76,17 @@ public class Bullet : MonoBehaviour
             //col.SendMessage("Hit", damagedata);
             Destroy(gameObject);
         }
+        else
+        {
+            if ((col.gameObject.GetComponent<Bullet>().TrueDamage + col.gameObject.GetComponent<Bullet>().Damage) >= (TrueDamage + Damage))
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+
+            }
+        }
     }
 
     
@@ -73,12 +95,6 @@ public class Bullet : MonoBehaviour
         Damage = Dam;
         TrueDamage = TrueDam;
         ShootForce = Force;
-    }
-
-
-    public void SetTarget(GameObject tar)
-    {
-        target = tar;
     }
 
     void RayGot()
