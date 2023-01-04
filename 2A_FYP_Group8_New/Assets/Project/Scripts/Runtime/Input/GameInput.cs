@@ -149,8 +149,30 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""19a7313a-9af1-491f-95b3-2e9a6161ab38"",
+                    ""path"": ""<OculusTouchController>{RightHand}/trigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Accelerate (Analog)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""04e7eb5f-abde-41dd-97ef-b74ce464c8c3"",
                     ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake (Analog)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e23e055c-917d-4ea4-868f-e44a0daca3b1"",
+                    ""path"": ""<OculusTouchController>{LeftHand}/trigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -190,6 +212,17 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""action"": ""Steering (Analog)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a8e421a-d340-41f1-a370-93096c3da071"",
+                    ""path"": ""<OculusTouchController>/thumbstick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steering (Analog)"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
