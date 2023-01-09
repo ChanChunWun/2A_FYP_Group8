@@ -43,7 +43,7 @@ public class PlayerTurretController : MonoBehaviour
             Time.timeScale = slowMo ? 0.15f : 1f;
         }
 
-        if (Turret != null)
+        if (Turret != null && UsingTurret == true)
         {
             HeatLine(Turret.GetComponent<TurretSystem>().GetRightHeat(), Turret.GetComponent<TurretSystem>().GetLeftHeat());
             MouseX = Input.GetAxis("Mouse X") * ms * Time.deltaTime;
