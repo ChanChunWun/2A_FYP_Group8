@@ -2,12 +2,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
-public class InputReader : ScriptableObject, GameInput.IDriverActions
+public class InputReader : ScriptableObject, GameInput.IDriverActions, GameInput.IPassengerActions
 {
     // Driver
     public event UnityAction<float> DriverAccerateEvent = delegate { };
     public event UnityAction<float> DriverBrakeEvent = delegate { };
     public event UnityAction<float> DriverSteeringEvent = delegate { };
+
+    // Passenger
+    public event UnityAction PassengerFireWeaponEvent = delegate { };
 
     private GameInput m_GameInput;
 
@@ -17,6 +20,7 @@ public class InputReader : ScriptableObject, GameInput.IDriverActions
         {
             m_GameInput = new GameInput();
             m_GameInput.Driver.SetCallbacks(this);
+            m_GameInput.Passenger.SetCallbacks(this);
         }
     }
 
@@ -30,6 +34,9 @@ public class InputReader : ScriptableObject, GameInput.IDriverActions
             case ActionMapType.Driver:
                 m_GameInput.Driver.Enable();
                 break;
+            case ActionMapType.Passenger:
+                m_GameInput.Passenger.Enable();
+                break;
         }
     }
 
@@ -39,6 +46,7 @@ public class InputReader : ScriptableObject, GameInput.IDriverActions
             return;
 
         m_GameInput.Driver.Disable();
+        m_GameInput.Passenger.Disable();
     }
 
     private void GenericAction(InputAction.CallbackContext context, UnityAction action)
@@ -70,6 +78,9 @@ public class InputReader : ScriptableObject, GameInput.IDriverActions
     public void OnAccelerateAnalog(InputAction.CallbackContext context) => DriverAccerateEvent.Invoke(context.ReadValue<float>());
     public void OnBrakeAnalog(InputAction.CallbackContext context) => DriverBrakeEvent.Invoke(context.ReadValue<float>());
     public void OnSteeringAnalog(InputAction.CallbackContext context) => DriverSteeringEvent.Invoke(context.ReadValue<float>());
+
+    // Passenger
+    public void OnFireWeapon(InputAction.CallbackContext context) => GenericAction(context, PassengerFireWeaponEvent);
 
     public enum ActionMapType
     {
