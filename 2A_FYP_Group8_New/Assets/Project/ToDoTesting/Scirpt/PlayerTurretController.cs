@@ -21,7 +21,7 @@ public class PlayerTurretController : MonoBehaviour
     {
         MyCam = GetComponent<Camera>();
         Cursor.lockState = CursorLockMode.None;
-        SetcamPos();
+        //SetcamPos();
         Turret.SendMessage("SetUser", gameObject);
     }
 
@@ -85,11 +85,11 @@ public class PlayerTurretController : MonoBehaviour
         }
     }
 
-    void SetcamPos()
+    /*void SetcamPos()
     {
         gameObject.transform.SetParent(Turret.GetComponent<TurretSystem>().CamerPos[CamPos]);
         gameObject.transform.localPosition = new Vector3(0, 0, 0);
-    }
+    }*/
 
     void ChangeWeapon(int No)
     {
@@ -106,6 +106,6 @@ public class PlayerTurretController : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         Turret = Instantiate(turret1);
-        SetcamPos();
+        //SetcamPos();
     }
 }

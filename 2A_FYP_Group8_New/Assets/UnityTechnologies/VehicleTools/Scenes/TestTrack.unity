@@ -1252,12 +1252,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06455264fa04d8643a6af3ffafcdd8a5, type: 3}
---- !u!4 &632979465 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7262182979408460725, guid: 06455264fa04d8643a6af3ffafcdd8a5,
-    type: 3}
-  m_PrefabInstance: {fileID: 632979464}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &718390007 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1000012966878064, guid: a8a0f57dfac5b7f4aa99100d9dac6c01,
@@ -2212,6 +2206,12 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!4 &1608725148 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7262182979408460725, guid: 06455264fa04d8643a6af3ffafcdd8a5,
+    type: 3}
+  m_PrefabInstance: {fileID: 632979464}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1639407588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2563,6 +2563,7 @@ GameObject:
   - component: {fileID: 1963140382}
   - component: {fileID: 1963140384}
   - component: {fileID: 1963140383}
+  - component: {fileID: 1963140385}
   m_Layer: 0
   m_Name: Passenger Camera
   m_TagString: Untagged
@@ -2582,7 +2583,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 632979465}
+  m_Father: {fileID: 1608725148}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1963140383
@@ -2661,6 +2662,19 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1963140385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963140381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74a83bff67afad14790f60d71803bd18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 15
 --- !u!1 &1987648892 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1000012966878064, guid: a8a0f57dfac5b7f4aa99100d9dac6c01,
