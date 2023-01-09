@@ -89,7 +89,7 @@ public class Bullet : MonoBehaviour
         object[] damagedata = new object[2];
         damagedata[0] = Damage;
         damagedata[1] = TrueDamage;
-        Debug.Log("Hit");
+        
         if (col.gameObject.tag != gameObject.tag)
         {
             Debug.Log("Hit : " + col.gameObject.name);
