@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 447180202375445078}
   m_Layer: 0
   m_Name: 200mmMissle
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10aa1d85beb726f4da7d98e2130e09fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShootForce: 20
+  ShootForce: 50
   Damage: 100
   TrueDamage: 200
   AddAccuracy: 0
