@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1812529235729162173}
   m_Father: {fileID: 0}
@@ -82,6 +83,12 @@ MonoBehaviour:
   AddAccuracy: 0
   BulletNum: 1
   lights: {fileID: 5149796125369636959}
+  missile: 0
+  turnTime: 3
+  target: {fileID: 0}
+  checkAngle: 15
+  animed: 0
+  Flame: {fileID: 0}
 --- !u!1 &5149796125369636959
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +118,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8926114032367900443}
   m_RootOrder: 0

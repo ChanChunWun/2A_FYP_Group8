@@ -30,19 +30,15 @@ public class Bullet : MonoBehaviour
         {
             anim = GetComponent<Animator>();
         }
+        if (missile)
+        {
+            GetComponent<CapsuleCollider>().isTrigger = true;
+        }
     }
 
     private void Update()
     {
-        if (ShowCount < 0.0001f)
-        {
-            ShowCount += Time.deltaTime;
-            lights.SetActive(false);
-        }
-        else
-        {
-            lights.SetActive(true);
-        }
+        
         
         if (missile)
         {
@@ -57,6 +53,22 @@ public class Bullet : MonoBehaviour
                 }
                 transform.position += transform.forward * ShootForce * Time.deltaTime;
                 
+            }
+            else
+            {
+                transform.localPosition = new Vector3(0, 0, 0);
+            }
+        }
+        else
+        {
+            if (ShowCount < 0.0001f)
+            {
+                ShowCount += Time.deltaTime;
+                lights.SetActive(false);
+            }
+            else
+            {
+                lights.SetActive(true);
             }
         }
         
@@ -88,7 +100,10 @@ public class Bullet : MonoBehaviour
         {
             if (missile)
             {
-                Destroy(gameObject);
+                if (Fired)
+                {
+                    Destroy(gameObject);
+                }
             }
             else
             {
@@ -109,6 +124,7 @@ public class Bullet : MonoBehaviour
     {
         target = tar;
         Fired = true;
+        transform.parent = null;
     }
 
     public void SetData(float Dam, float TrueDam, float Force)

@@ -6,6 +6,7 @@ public class TurretWeaponSystem : MonoBehaviour
 {
     AudioSource Audio;
     Animator anim;
+    public bool AiUse = false;
     public List<Transform> FirePos;
     int FireCount = 0;
     [SerializeField]
@@ -52,9 +53,9 @@ public class TurretWeaponSystem : MonoBehaviour
     public bool missileLuncher;
     public List<Transform> MissilePos;
     public GameObject Missiles;
-    List<GameObject> ShowMissile;
+    List<GameObject> ShowMissile = new List<GameObject>();
     public float MissileRespawnTime = 10f;
-    List<float> RespawnCount;
+    List<float> RespawnCount = new List<float>();
     int NowMissile = 0;
     GameObject target;
     // Start is called before the first frame update
@@ -141,7 +142,20 @@ public class TurretWeaponSystem : MonoBehaviour
                 {
                     if (target != null)
                     {
-                        ShowMissile[NowMissile].GetComponent<Bullet>().Fire(target);
+                        if(ShowMissile[NowMissile] != null)
+                        {
+                            ShowMissile[NowMissile].GetComponent<Bullet>().Fire(target);
+                            Audio.PlayOneShot(ShootSound);
+                            if (NowMissile < (MissilePos.Count - 1))
+                            {
+                                NowMissile++;
+                            }
+                            else
+                            {
+                                NowMissile = 0;
+                            }
+                        }
+
                     }
                 }
                 else
@@ -359,12 +373,15 @@ public class TurretWeaponSystem : MonoBehaviour
     void setMissilePos()
     {
         Debug.Log("Missile Seting");
-        float RespC = 0;
+        float RespC;
         for (int i = 0; i < MissilePos.Count; i++)
         {
+            RespC = 0;
             RespawnCount.Add(RespC);
             GameObject SpMiss = Instantiate(Missiles, MissilePos[i].position, MissilePos[i].rotation);
             SpMiss.transform.parent = MissilePos[i];
+            SpMiss.transform.position = new Vector3(0, 0, 0);
+            SpMiss.transform.localScale = new Vector3(1,1,1);
             ShowMissile.Add(SpMiss);
         }
 
