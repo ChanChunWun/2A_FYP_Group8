@@ -231,6 +231,24 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
             ""id"": ""2e1c11d2-d3c2-4d98-a967-e8e8412e509f"",
             ""actions"": [
                 {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""061d9f59-dafe-4783-ad47-605bcf2c6ec2"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Ready Weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""f3377ffa-7106-471b-afa9-7bb491ca730e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Fire Weapon"",
                     ""type"": ""Button"",
                     ""id"": ""ead08a1f-d511-4290-af86-112e2b5ad1c7"",
@@ -251,6 +269,28 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
                     ""action"": ""Fire Weapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b921e12-11bf-4644-8ce0-e52348906591"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ready Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1886ee7-b5e9-498b-8918-45046a35ce4a"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": ""InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)"",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -268,6 +308,8 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         m_Driver_SteeringAnalog = m_Driver.FindAction("Steering (Analog)", throwIfNotFound: true);
         // Passenger
         m_Passenger = asset.FindActionMap("Passenger", throwIfNotFound: true);
+        m_Passenger_Look = m_Passenger.FindAction("Look", throwIfNotFound: true);
+        m_Passenger_ReadyWeapon = m_Passenger.FindAction("Ready Weapon", throwIfNotFound: true);
         m_Passenger_FireWeapon = m_Passenger.FindAction("Fire Weapon", throwIfNotFound: true);
     }
 
@@ -409,11 +451,15 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     // Passenger
     private readonly InputActionMap m_Passenger;
     private IPassengerActions m_PassengerActionsCallbackInterface;
+    private readonly InputAction m_Passenger_Look;
+    private readonly InputAction m_Passenger_ReadyWeapon;
     private readonly InputAction m_Passenger_FireWeapon;
     public struct PassengerActions
     {
         private @GameInput m_Wrapper;
         public PassengerActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Look => m_Wrapper.m_Passenger_Look;
+        public InputAction @ReadyWeapon => m_Wrapper.m_Passenger_ReadyWeapon;
         public InputAction @FireWeapon => m_Wrapper.m_Passenger_FireWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Passenger; }
         public void Enable() { Get().Enable(); }
@@ -424,6 +470,12 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_PassengerActionsCallbackInterface != null)
             {
+                @Look.started -= m_Wrapper.m_PassengerActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_PassengerActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_PassengerActionsCallbackInterface.OnLook;
+                @ReadyWeapon.started -= m_Wrapper.m_PassengerActionsCallbackInterface.OnReadyWeapon;
+                @ReadyWeapon.performed -= m_Wrapper.m_PassengerActionsCallbackInterface.OnReadyWeapon;
+                @ReadyWeapon.canceled -= m_Wrapper.m_PassengerActionsCallbackInterface.OnReadyWeapon;
                 @FireWeapon.started -= m_Wrapper.m_PassengerActionsCallbackInterface.OnFireWeapon;
                 @FireWeapon.performed -= m_Wrapper.m_PassengerActionsCallbackInterface.OnFireWeapon;
                 @FireWeapon.canceled -= m_Wrapper.m_PassengerActionsCallbackInterface.OnFireWeapon;
@@ -431,6 +483,12 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
             m_Wrapper.m_PassengerActionsCallbackInterface = instance;
             if (instance != null)
             {
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+                @ReadyWeapon.started += instance.OnReadyWeapon;
+                @ReadyWeapon.performed += instance.OnReadyWeapon;
+                @ReadyWeapon.canceled += instance.OnReadyWeapon;
                 @FireWeapon.started += instance.OnFireWeapon;
                 @FireWeapon.performed += instance.OnFireWeapon;
                 @FireWeapon.canceled += instance.OnFireWeapon;
@@ -450,6 +508,8 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
     }
     public interface IPassengerActions
     {
+        void OnLook(InputAction.CallbackContext context);
+        void OnReadyWeapon(InputAction.CallbackContext context);
         void OnFireWeapon(InputAction.CallbackContext context);
     }
 }

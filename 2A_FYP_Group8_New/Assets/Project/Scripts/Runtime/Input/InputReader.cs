@@ -10,9 +10,16 @@ public class InputReader : ScriptableObject, GameInput.IDriverActions, GameInput
     public event UnityAction<float> DriverSteeringEvent = delegate { };
 
     // Passenger
-    public event UnityAction PassengerFireWeaponEvent = delegate { };
+    public event UnityAction<Vector2> PassengerLookEvent = delegate { };
+    public event UnityAction<bool> PassengerReadyWeaponEvent = delegate { };
+    public event UnityAction<bool> PassengerFireWeaponEvent = delegate { };
 
+    // Device
     private GameInput m_GameInput;
+    public GameInput GameInput
+    {
+        get => m_GameInput;
+    }
 
     private void OnEnable()
     {
@@ -68,6 +75,19 @@ public class InputReader : ScriptableObject, GameInput.IDriverActions, GameInput
         }
     }
 
+    private void DigitalAction(InputAction.CallbackContext context, UnityAction<bool> action)
+    {
+        switch (context.phase)
+        {
+            case InputActionPhase.Performed:
+                action.Invoke(true);
+                break;
+            case InputActionPhase.Canceled:
+                action.Invoke(false);
+                break;
+        }
+    }
+
     // Driver - Digital
     public void OnAccelerate(InputAction.CallbackContext context) => DigitalAction(context, DriverAccerateEvent, 1f);
     public void OnBrake(InputAction.CallbackContext context) => DigitalAction(context, DriverBrakeEvent, 1f);
@@ -80,7 +100,9 @@ public class InputReader : ScriptableObject, GameInput.IDriverActions, GameInput
     public void OnSteeringAnalog(InputAction.CallbackContext context) => DriverSteeringEvent.Invoke(context.ReadValue<float>());
 
     // Passenger
-    public void OnFireWeapon(InputAction.CallbackContext context) => GenericAction(context, PassengerFireWeaponEvent);
+    public void OnLook(InputAction.CallbackContext context) => PassengerLookEvent.Invoke(context.ReadValue<Vector2>());
+    public void OnReadyWeapon(InputAction.CallbackContext context) => DigitalAction(context, PassengerReadyWeaponEvent);
+    public void OnFireWeapon(InputAction.CallbackContext context) => DigitalAction(context, PassengerFireWeaponEvent);
 
     public enum ActionMapType
     {
