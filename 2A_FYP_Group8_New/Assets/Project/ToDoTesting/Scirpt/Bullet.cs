@@ -93,7 +93,7 @@ public class Bullet : MonoBehaviour
         if (col.gameObject.tag != gameObject.tag)
         {
             Debug.Log("Hit : " + col.gameObject.name);
-            //col.SendMessage("Hit", damagedata);
+            col.transform.SendMessage("Hit", damagedata);
             Destroy(gameObject);
         }
         else
