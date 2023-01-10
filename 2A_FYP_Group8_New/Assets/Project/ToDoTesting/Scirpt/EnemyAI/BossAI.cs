@@ -7,21 +7,40 @@ public class BossAI : MonoBehaviour
     // Start is called before the first frame update
     LifeSystem lf;
     public GameObject ExplodeEff;
-    public Transform LiftShou;
-    public Transform LifeArm;
-    public Transform RightShou;
-    public Transform RightArm;
-    public Transform Head;
-    public Transform Waist;
+    
+    public List<Transform> Bodys;
+    /*
+    0 LiftShou;
+    1 LifeArm;
+    2 RightShou;
+    3 RightArm;
+    4 Head;
+    5 Waist;
+     */
 
     public List<TurretWeaponSystem> weapons;
 
-    GameObject Player;
-    bool StartAttack;
+    private GameObject Player;
+    private bool StartAttack;
+
+    private List<Quaternion> OrgRos = new List<Quaternion>();
+    /*
+0 LiftShou;
+1 LifeArm;
+2 RightShou;
+3 RightArm;
+4 Head;
+5 Waist;
+ */
+
     void Start()
     {
         lf = GetComponent<LifeSystem>();
         Player = GameObject.FindWithTag("Player");
+        for (int i = 0; i < Bodys.Count; i++)
+        {
+            OrgRos.Add(Bodys[i].rotation);
+        }
     }
 
     // Update is called once per frame
@@ -39,18 +58,35 @@ public class BossAI : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < weapons.Count; i++)
+        if (lf.dead != true)
         {
-            if (weapons[i] != null)
-            weapons[i].Shoot(gameObject, null);
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                if (weapons[i] != null)
+                    weapons[i].Shoot(gameObject, null);
+            }
+            LiftShouTurn();
+            LifeArmTurn();
+            RightShouTurn();
+            RightArmTurn();
+            HeadTurn();
+            WaistTurn();
         }
+        
     }
     
     void LiftShouTurn()
     {
         if (Player != null)
         {
+            var rotation = Quaternion.LookRotation(Player.transform.position - transform.position);
+            //rotation.y += 0;
+            //rotation.x += -90;
+            //rotation.z += 0;
+           // Quaternion a = OrgRos[0] * Bodys[0];
+            //Bodys[0].rotation = Quaternion.Slerp(LiftShou.rotation, rotation, Time.deltaTime * 4);
 
+            //LiftShou.rotation = Quaternion.Euler(0, LiftShou.rotation.y - 90, 0);
         }
     }
 
