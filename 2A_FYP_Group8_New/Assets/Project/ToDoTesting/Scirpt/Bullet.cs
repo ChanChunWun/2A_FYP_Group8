@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public GameObject ExpEff;
     public float ShootForce = 20;
     public float Damage = 40;
     public float TrueDamage = 20;
@@ -92,8 +93,12 @@ public class Bullet : MonoBehaviour
         
         if (col.gameObject.tag != gameObject.tag)
         {
+            if (shooter != null)
+            if (shooter.layer == 8)
             Debug.Log("Hit : " + col.gameObject.name);
-            col.transform.SendMessage("Hit", damagedata);
+            col.transform.SendMessage("Hit", damagedata, SendMessageOptions.DontRequireReceiver);
+            GameObject fire = Instantiate(ExpEff, transform.position, transform.rotation);
+            Destroy(fire, 1);
             Destroy(gameObject);
         }
         else
@@ -102,13 +107,18 @@ public class Bullet : MonoBehaviour
             {
                 if (Fired)
                 {
+                    GameObject fire = Instantiate(ExpEff, transform.position, transform.rotation);
+                    Destroy(fire, 1);
                     Destroy(gameObject);
+
                 }
             }
             else
             {
                 if ((col.gameObject.GetComponent<Bullet>().TrueDamage + col.gameObject.GetComponent<Bullet>().Damage) >= (TrueDamage + Damage))
                 {
+                    GameObject fire = Instantiate(ExpEff, transform.position, transform.rotation);
+                    Destroy(fire, 1);
                     Destroy(gameObject);
                 }
                 else

@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.2347, y: 1.2347, z: 1.8920542}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7225456334655292288}
   m_RootOrder: 0
@@ -131,6 +132,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8222103767081562935}
   m_Father: {fileID: 0}
@@ -178,9 +180,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10aa1d85beb726f4da7d98e2130e09fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExpEff: {fileID: 100004, guid: b46890100828db6429ff69c322b45893, type: 3}
   ShootForce: 18
   Damage: 5
   TrueDamage: 15
   AddAccuracy: 0
   BulletNum: 1
   lights: {fileID: 3823945045684098564}
+  missile: 0
+  turnTime: 3
+  target: {fileID: 0}
+  checkAngle: 15
+  animed: 0
+  Flame: {fileID: 0}

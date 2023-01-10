@@ -45,10 +45,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.04
+  m_Radius: 0.025234424
   m_Height: 0.21801451
   m_Direction: 2
-  m_Center: {x: 0, y: 0.003771443, z: 0.08958231}
+  m_Center: {x: 0, y: -0.0017106831, z: 0.08958231}
 --- !u!54 &8346203634620643666
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -77,9 +77,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10aa1d85beb726f4da7d98e2130e09fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShootForce: 12
-  Damage: 40
-  TrueDamage: 20
+  ExpEff: {fileID: 100004, guid: b46890100828db6429ff69c322b45893, type: 3}
+  ShootForce: 15
+  Damage: 60
+  TrueDamage: 50
   AddAccuracy: 0
   BulletNum: 1
   lights: {fileID: 5149796125369636959}
@@ -107,7 +108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1812529235729162173
 Transform:
   m_ObjectHideFlags: 0

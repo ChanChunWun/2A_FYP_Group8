@@ -119,6 +119,7 @@ public class TurretWeaponSystem : MonoBehaviour
                     {
                         if (shootposition == null)
                             Shoot(FirePos[FireCount]);
+                            
                         else
                             Shoot(shootposition);
                         //Audio.PlayOneShot(ShootSound);
@@ -341,6 +342,7 @@ public class TurretWeaponSystem : MonoBehaviour
         direction.y += Random.Range(-Deviation, Deviation);
         direction.z += Random.Range(-Deviation, Deviation);
         GameObject ShootedBullet = Instantiate(MyBullet, shootpos.transform.position, direction);
+        ShootedBullet.SendMessage("SetShooter", user, SendMessageOptions.DontRequireReceiver);
         Rigidbody ShootedBulletRB = ShootedBullet.GetComponent<Rigidbody>();
         ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
         Destroy(ShootedBullet, 5f);
