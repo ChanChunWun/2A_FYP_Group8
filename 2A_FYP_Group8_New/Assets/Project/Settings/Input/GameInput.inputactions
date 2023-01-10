@@ -209,6 +209,24 @@
             "id": "2e1c11d2-d3c2-4d98-a967-e8e8412e509f",
             "actions": [
                 {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "061d9f59-dafe-4783-ad47-605bcf2c6ec2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Ready Weapon",
+                    "type": "Button",
+                    "id": "f3377ffa-7106-471b-afa9-7bb491ca730e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Fire Weapon",
                     "type": "Button",
                     "id": "ead08a1f-d511-4290-af86-112e2b5ad1c7",
@@ -227,6 +245,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Fire Weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b921e12-11bf-4644-8ce0-e52348906591",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ready Weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1886ee7-b5e9-498b-8918-45046a35ce4a",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)",
+                    "groups": "",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

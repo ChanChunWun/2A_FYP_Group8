@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using ActionMapType = InputReader.ActionMapType;
 
 public class VehiclePlayerController : VehicleComponent
@@ -25,6 +26,7 @@ public class VehiclePlayerController : VehicleComponent
     {
         base.Awake();
         m_InputReader = ScriptableObject.CreateInstance<InputReader>();
+        m_InputReader.GameInput.devices = new[] { Keyboard.current };
     }
 
     private void Start()
