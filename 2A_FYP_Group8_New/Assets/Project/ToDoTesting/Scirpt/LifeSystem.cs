@@ -33,13 +33,15 @@ public class LifeSystem : MonoBehaviour
         {
             if(((float)data[0] - Armor) > 0)
             {
-                
+                totDamage += (float)data[0] - Armor;
             }
             else
             {
-                totDamage += (float)data[0] - Armor;
+                
             }
+            Debug.Log(totDamage);
             totDamage += (float)data[1];
+            
             hp -= totDamage;
         }
         else
@@ -56,6 +58,7 @@ public class LifeSystem : MonoBehaviour
                     totDamage += (float)data[0] - Armor;
                 }
                 totDamage += (float)data[1];
+                Debug.Log(totDamage);
                 hp -= totDamage;
             }
             else

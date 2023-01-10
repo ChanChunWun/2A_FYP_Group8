@@ -2200,11 +2200,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d90271e9fa699543ad6ddfd854e9a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyCam: {fileID: 2136740473}
   Turret: {fileID: 1029690884506331854}
   RightHeatImage: {fileID: 1957725450}
   LeftHeatImage: {fileID: 817193956}
   ms: 120
-  UsingTurret: 1
+  testing: 1
 --- !u!114 &2136740476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2268,7 +2269,7 @@ PrefabInstance:
     - target: {fileID: 1036484251605062806, guid: 34913e5907da90346bbab54b59d13753,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.256
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 1036484251605062806, guid: 34913e5907da90346bbab54b59d13753,
         type: 3}
@@ -16462,8 +16463,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainBody: 1
-  Armor: 120
-  MaxHp: 6000
+  Armor: 60
+  MaxHp: 600
   nonMainHit: 0
   LinkBody: {fileID: 0}
   dead: 0

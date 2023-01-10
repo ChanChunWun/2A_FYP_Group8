@@ -6,27 +6,28 @@ public class PlayerTurretController : MonoBehaviour
     float MouseX;
     float MouseY;
 
+    public Camera MyCam;
     public GameObject Turret;
     public Image RightHeatImage;
     public Image LeftHeatImage;
     public float ms = 60;
 
-    private TurretSystem TurretSystem;
-    private Camera MyCam;
     int CamPos = 0;
 
     bool slowMo = false;
     bool UsingTurret = false;
 
-    private void Awake()
-    {
-        MyCam = GetComponent<Camera>();
-        TurretSystem = Turret.GetComponent<TurretSystem>();
-    }
-
+    public bool testing;
     void Start()
     {
-        MyCam.gameObject.SetActive(false);
+        if (!testing)
+        {
+            MyCam.transform.gameObject.SetActive(false);
+        }
+        else
+        {
+            UsingTurret = true;
+        }
         Cursor.lockState = CursorLockMode.None;
         SetcamPos();
         Turret.SendMessage("SetUser", gameObject);
@@ -43,20 +44,29 @@ public class PlayerTurretController : MonoBehaviour
 
         if (Turret != null && UsingTurret == true)
         {
-            HeatLine(TurretSystem.GetRightHeat(), TurretSystem.GetLeftHeat());
+            HeatLine(Turret.GetComponent<TurretSystem>().GetRightHeat(), Turret.GetComponent<TurretSystem>().GetLeftHeat());
             MouseX = Input.GetAxis("Mouse X") * ms * Time.deltaTime;
             MouseY = Input.GetAxis("Mouse Y") * ms * Time.deltaTime;
-            TurretSystem.ControlTurret(MouseY, MouseX);
+            Turret.GetComponent<TurretSystem>().ControlTurret(MouseY, MouseX);
+
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                Turret.GetComponent<TurretSystem>().Shoot(gameObject);
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
+            }
 
             if (Input.GetKey(KeyCode.Mouse1))
             {
-                if (MyCam.fieldOfView > TurretSystem.ZoomFoV)
+                if (MyCam.fieldOfView > Turret.GetComponent<TurretSystem>().ZoomFoV)
                 {
                     MyCam.fieldOfView -= 500 * Time.deltaTime;
                 }
                 else
                 {
-                    MyCam.fieldOfView = TurretSystem.ZoomFoV;
+                    MyCam.fieldOfView = Turret.GetComponent<TurretSystem>().ZoomFoV;
                 }
             }
             else
@@ -85,13 +95,13 @@ public class PlayerTurretController : MonoBehaviour
 
     void SetcamPos()
     {
-        gameObject.transform.SetParent(TurretSystem.CamerPos[CamPos]);
-        gameObject.transform.localPosition = new Vector3(0, 0, 0);
+        MyCam.transform.SetParent(Turret.GetComponent<TurretSystem>().CamerPos[CamPos]);
+        MyCam.transform.localPosition = new Vector3(0, 0, 0);
     }
 
     void ChangeWeapon(int No)
     {
-        TurretSystem.SetUseNo(No);
+        Turret.GetComponent<TurretSystem>().SetUseNo(No);
     }
 
     void HeatLine(float RightHeat, float LeftHeat)
@@ -112,15 +122,7 @@ public class PlayerTurretController : MonoBehaviour
         if (UsingTurret == tf)
             return;
 
-        MyCam.gameObject.SetActive(tf);
+        MyCam.transform.gameObject.SetActive(tf);
         UsingTurret = tf;
-    }
-
-    public void Fire(bool value)
-    {
-        if (value)
-            TurretSystem.Shoot(gameObject);
-        else
-            TurretSystem.ChargeNotFullShoot(gameObject);
     }
 }

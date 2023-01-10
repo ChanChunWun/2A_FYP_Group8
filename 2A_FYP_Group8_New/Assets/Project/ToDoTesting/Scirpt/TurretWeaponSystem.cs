@@ -117,7 +117,10 @@ public class TurretWeaponSystem : MonoBehaviour
                     SetBulletData(1, 1, 1);
                     for (int i = 0; i < BulletNum; i++)
                     {
-                        Shoot(shootposition);
+                        if (shootposition == null)
+                            Shoot(FirePos[FireCount]);
+                        else
+                            Shoot(shootposition);
                         //Audio.PlayOneShot(ShootSound);
                     }
                     Audio.PlayOneShot(ShootSound);
@@ -171,7 +174,10 @@ public class TurretWeaponSystem : MonoBehaviour
                             //anim.SetBool("Charging", false);
                         }
                         SetBulletData(DamageMult, TrueDamageMult, ForceMult);
-                        Shoot(shootposition);
+                        if (shootposition == null)
+                            Shoot(FirePos[FireCount]);
+                        else
+                            Shoot(shootposition);
                         ChargeCount = 0;
                         Heat += 1f;
                         CantUse = true;

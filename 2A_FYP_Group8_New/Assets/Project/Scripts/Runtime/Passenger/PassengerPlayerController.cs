@@ -53,7 +53,10 @@ public class PassengerPlayerController : MonoBehaviour
 
     private void OnReadyWeapon(bool value) => m_TurretController.SetUsing(value);
 
-    private void OnFireWeapon(bool value) => m_TurretController.Fire(value);
+    private void OnFireWeapon(bool value)
+    {
+        // TODO: Process GetKey type input
+    }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
