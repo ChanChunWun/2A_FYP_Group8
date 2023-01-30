@@ -10,7 +10,8 @@ public class TestLaserSc : MonoBehaviour
     bool m_HitDetect;
     Collider m_Collider;
     RaycastHit m_Hit;
-
+    public VolumetricLines.VolumetricLineBehavior light;
+    public bool Shoot;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,12 +21,24 @@ public class TestLaserSc : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 Extents = new Vector3(_Extents, _Extents, shootpos.transform.localScale.z);
-        m_HitDetect = Physics.BoxCast(m_Collider.bounds.center, Extents, shootpos.transform.forward, out m_Hit, shootpos.transform.rotation, 2000);
-        if (m_HitDetect)
+        Vector3 Extents = new Vector3(_Extents/2, _Extents/2, shootpos.transform.localScale.z);
+        if (Shoot)
         {
-            //Output the name of the Collider your Box hit
-            Debug.Log("Hit : " + m_Hit.collider.name);
+            m_HitDetect = Physics.BoxCast(m_Collider.bounds.center, Extents, shootpos.transform.forward, out m_Hit, shootpos.transform.rotation, 2000);
+            light.LineWidth = _Extents * 9;
+            if (m_HitDetect)
+            {
+                //light.StartPos = new Vector3(0, 0, m_Hit.distance / 1.5f);
+                light.EndPos = new Vector3(0, 0, m_Hit.distance + 0.5f);
+                Debug.Log("Hit : " + m_Hit.collider.name);
+            }
+            else
+            {
+                //light.StartPos = new Vector3(0, 0, 15);
+                light.EndPos = new Vector3(0, 0, 4000);
+
+            }
+
         }
 
     }
@@ -34,20 +47,14 @@ public class TestLaserSc : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Vector3 Extents = new Vector3(_Extents, _Extents, shootpos.transform.localScale.z);
-        //Check if there has been a hit yet
         if (m_HitDetect)
         {
-            //Draw a Ray forward from GameObject toward the hit
             Gizmos.DrawRay(shootpos.transform.position, shootpos.transform.forward * m_Hit.distance);
-            //Draw a cube that extends to where the hit exists
             Gizmos.DrawWireCube(shootpos.transform.position + shootpos.transform.forward * m_Hit.distance, Extents);
         }
-        //If there hasn't been a hit yet, draw the ray at the maximum distance
         else
         {
-            //Draw a Ray forward from GameObject toward the maximum distance
             Gizmos.DrawRay(shootpos.transform.position, shootpos.transform.forward * 2000);
-            //Draw a cube at the maximum distance
             Gizmos.DrawWireCube(shootpos.transform.position + shootpos.transform.forward * 2000, Extents);
         }
     }

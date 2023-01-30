@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class TurretWeaponSystem : MonoBehaviour
 {
+    #region Audio
     AudioSource Audio;
+    #endregion
     Animator anim;
     public bool AiUse = false;
     public List<Transform> FirePos;
@@ -58,11 +60,14 @@ public class TurretWeaponSystem : MonoBehaviour
     List<float> RespawnCount = new List<float>();
     int NowMissile = 0;
     GameObject target;
-
+    [Header("LazerWeapon")]
     public bool LaserWeapon;
+    public float _Extents = 3;
     bool m_HitDetect;
     Collider m_Collider;
     RaycastHit m_Hit;
+    public VolumetricLines.VolumetricLineBehavior light;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -176,15 +181,21 @@ public class TurretWeaponSystem : MonoBehaviour
                     }
                 }
                 else if (LaserWeapon == true){
-                    ShootCount = 0;
-                    Heat += AddHeat;
-                    Vector3 Extents = new Vector3(3,3, transform.localScale.z);
-                    m_HitDetect = Physics.BoxCast(m_Collider.bounds.center, Extents, transform.forward, out m_Hit, transform.rotation, 2000);
-                    if (m_HitDetect)
-                    {
-                        //Output the name of the Collider your Box hit
-                        Debug.Log("Hit : " + m_Hit.collider.name);
-                    }
+                    Vector3 Extents = new Vector3(_Extents / 2, _Extents / 2, shootposition.transform.localScale.z);
+                        m_HitDetect = Physics.BoxCast(m_Collider.bounds.center, Extents, shootposition.transform.forward, out m_Hit, shootposition.transform.rotation, 2000);
+                        light.LineWidth = _Extents * 9;
+                        if (m_HitDetect)
+                        {
+                            //light.StartPos = new Vector3(0, 0, m_Hit.distance / 1.5f);
+                            light.EndPos = new Vector3(0, 0, m_Hit.distance + 0.5f);
+                            Debug.Log("Hit : " + m_Hit.collider.name);
+                        }
+                        else
+                        {
+                            //light.StartPos = new Vector3(0, 0, 15);
+                            light.EndPos = new Vector3(0, 0, 4000);
+
+                        }
                 }
                 else
                 {
