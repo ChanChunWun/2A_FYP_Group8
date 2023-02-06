@@ -63,7 +63,7 @@ public class BossAI : MonoBehaviour
             for (int i = 0; i < weapons.Count; i++)
             {
                 if (weapons[i] != null)
-                    weapons[i].Shoot(gameObject, null);
+                    weapons[i].Shoot(gameObject, null, null);
             }
             LiftShouTurn();
             LifeArmTurn();
@@ -79,11 +79,12 @@ public class BossAI : MonoBehaviour
     {
         if (Player != null)
         {
-            var rotation = Quaternion.LookRotation(Player.transform.position - transform.position);
+            //var rotation = Quaternion.LookRotation(Player.transform.position - transform.position);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 4);
             //rotation.y += 0;
             //rotation.x += -90;
             //rotation.z += 0;
-           // Quaternion a = OrgRos[0] * Bodys[0];
+            // Quaternion a = OrgRos[0] * Bodys[0];
             //Bodys[0].rotation = Quaternion.Slerp(LiftShou.rotation, rotation, Time.deltaTime * 4);
 
             //LiftShou.rotation = Quaternion.Euler(0, LiftShou.rotation.y - 90, 0);

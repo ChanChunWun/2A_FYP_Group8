@@ -52,6 +52,8 @@ public class TurretWeaponSystem : MonoBehaviour
     public Transform ShellOutPos;
     public GameObject Shell;
     public bool HaveShell;
+
+    [Header("Missile")]
     public bool missileLuncher;
     public List<Transform> MissilePos;
     public GameObject Missiles;
@@ -60,13 +62,18 @@ public class TurretWeaponSystem : MonoBehaviour
     List<float> RespawnCount = new List<float>();
     int NowMissile = 0;
     GameObject target;
+
     [Header("LazerWeapon")]
     public bool LaserWeapon;
     public float _Extents = 3;
+    public Transform shrinker;
     bool m_HitDetect;
     Collider m_Collider;
     RaycastHit m_Hit;
     public VolumetricLines.VolumetricLineBehavior light;
+    public float fulllaserTime = 2.5f; 
+    float laserCount = 0;
+    float damageCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +82,7 @@ public class TurretWeaponSystem : MonoBehaviour
         ShootSp = 1 / (ShootSpeed / 60);
         Deviation += BulletOj.GetComponent<Bullet>().AddAccuracy;
         SetHeatMat();
+        if (BulletOj!=null)
         MyBullet = BulletOj;
         if (haveChargeAnim)
         {
@@ -83,6 +91,10 @@ public class TurretWeaponSystem : MonoBehaviour
         if (missileLuncher)
         {
             setMissilePos();
+        }
+        if (LaserWeapon)
+        {
+            m_Collider = FirePos[0].GetComponent<Collider>();
         }
     }
 
@@ -112,7 +124,7 @@ public class TurretWeaponSystem : MonoBehaviour
         
     }
 
-    public void Shoot(GameObject Player, Transform shootposition)
+    public void Shoot(GameObject Player, Transform shootposition, Camera cam)
     {
         user = Player;
         if (CantUse != true)
@@ -126,79 +138,9 @@ public class TurretWeaponSystem : MonoBehaviour
         {
             if (CantUse != true)
             {
-                if (isCharge != true)
+                if (isCharge == true)
                 {
-                    
-                    ShootCount = 0;
-                    Heat += AddHeat;
-                    SetBulletData(1, 1, 1);
-                    for (int i = 0; i < BulletNum; i++)
-                    {
-                        if (shootposition == null)
-                            Shoot(FirePos[FireCount]);
-                            
-                        else
-                            Shoot(shootposition);
-                        //Audio.PlayOneShot(ShootSound);
-                    }
-                    Audio.PlayOneShot(ShootSound);
-                    GameObject fire = Instantiate(FireEffect, FirePos[FireCount].transform.position, FirePos[FireCount].transform.rotation);
-                    fire.transform.SetParent(FirePos[FireCount]);
-                    Destroy(fire, 0.1f);
-                    if (FireCount < (FirePos.Count - 1))
-                    {
-                        FireCount++;
-                    }
-                    else
-                    {
-                        FireCount = 0;
-                    }
-                    for (int i = 0; i < HeatBarrel.Count; i++)
-                    {
-                        HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.b, Heat);
-                    }
-                    CoolTimeCount = 0;
-                }
-                else if (missileLuncher == true)
-                {
-                    if (target != null)
-                    {
-                        if(ShowMissile[NowMissile] != null)
-                        {
-                            ShootCount = 0;
-                            ShowMissile[NowMissile].GetComponent<Bullet>().Fire(target);
-                            Audio.PlayOneShot(ShootSound);
-                            if (NowMissile < (MissilePos.Count - 1))
-                            {
-                                NowMissile++;
-                            }
-                            else
-                            {
-                                NowMissile = 0;
-                            }
-                        }
 
-                    }
-                }
-                else if (LaserWeapon == true){
-                    Vector3 Extents = new Vector3(_Extents / 2, _Extents / 2, shootposition.transform.localScale.z);
-                        m_HitDetect = Physics.BoxCast(m_Collider.bounds.center, Extents, shootposition.transform.forward, out m_Hit, shootposition.transform.rotation, 2000);
-                        light.LineWidth = _Extents * 9;
-                        if (m_HitDetect)
-                        {
-                            //light.StartPos = new Vector3(0, 0, m_Hit.distance / 1.5f);
-                            light.EndPos = new Vector3(0, 0, m_Hit.distance + 0.5f);
-                            Debug.Log("Hit : " + m_Hit.collider.name);
-                        }
-                        else
-                        {
-                            //light.StartPos = new Vector3(0, 0, 15);
-                            light.EndPos = new Vector3(0, 0, 4000);
-
-                        }
-                }
-                else
-                {
                     ChargeCount += Time.deltaTime;
                     ChargeCoolTimeCount = 0;
 
@@ -245,10 +187,116 @@ public class TurretWeaponSystem : MonoBehaviour
                         if (haveChargeAnim)
                         {
                             //anim.SetBool("Charging", true);
-                            ChargeAnimCount += Time.deltaTime * ( 1 / ChargeTime );
+                            ChargeAnimCount += Time.deltaTime * (1 / ChargeTime);
                             anim.SetFloat("Charge", ChargeAnimCount);
                         }
                     }
+                }
+                else if (missileLuncher == true)
+                {
+                    if (target != null)
+                    {
+                        if (ShowMissile[NowMissile] != null)
+                        {
+                            ShootCount = 0;
+                            ShowMissile[NowMissile].GetComponent<Bullet>().Fire(target);
+                            Audio.PlayOneShot(ShootSound);
+                            if (NowMissile < (MissilePos.Count - 1))
+                            {
+                                NowMissile++;
+                            }
+                            else
+                            {
+                                NowMissile = 0;
+                            }
+                        }
+
+                    }
+                }
+                else if (LaserWeapon == true)
+                {
+                    CoolTimeCount = 0;
+                    Debug.Log(cam.gameObject.name);
+                    RaycastHit hit;
+                    Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                    float currentAngle = shrinker.transform.localEulerAngles.z;
+                    currentAngle = (currentAngle > 180) ? currentAngle - 360 : currentAngle;
+                    if (currentAngle > 360)
+                    {
+                        currentAngle = 360;
+                    }
+                    else if (currentAngle < -360)
+                    {
+                        currentAngle = -360;
+                    }
+                    shrinker.Rotate(0, 0, 600 * Time.deltaTime);
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+                    {
+                        FirePos[0].LookAt(hit.point);
+                        Debug.Log("Did Hit");
+                    }
+                    else
+                    {
+                        //Vector3 lookPos = new Vector3(shootposition.localPosition.x + 2000, shootposition.localPosition.y, shootposition.localPosition.z );
+                        FirePos[0].localRotation = Quaternion.Euler(0, 0, 0);
+                        Debug.Log("Did not Hit");
+                    }
+                    Vector3 Extents = new Vector3(_Extents / 2, _Extents / 2, FirePos[0].localScale.z);
+
+                    m_HitDetect = Physics.BoxCast(m_Collider.bounds.center, Extents, FirePos[0].forward, out m_Hit, FirePos[0].rotation, 2000);
+                    light.LineWidth = _Extents * 7;
+
+
+
+
+                    if (m_HitDetect)
+                    {
+                        Lasershoot();
+                        //light.StartPos = new Vector3(0, 0, m_Hit.distance / 1.5f);
+                        light.EndPos = new Vector3(0, 0, m_Hit.distance + 0.5f);
+                        Debug.Log("hit range: " + m_Hit.distance);
+                        Debug.Log("Hit : " + m_Hit.collider.name);
+                    }
+                    else
+                    {
+                        Lasershoot();
+                        //light.StartPos = new Vector3(0, 0, 15);
+                        light.EndPos = new Vector3(0, 0, 2000);
+
+                    }
+                
+                }
+                else
+                {
+                    ShootCount = 0;
+                    Heat += AddHeat;
+                    SetBulletData(1, 1, 1);
+                    for (int i = 0; i < BulletNum; i++)
+                    {
+                        if (shootposition == null)
+                            Shoot(FirePos[FireCount]);
+
+                        else
+                            Shoot(shootposition);
+                        //Audio.PlayOneShot(ShootSound);
+                    }
+                    Audio.PlayOneShot(ShootSound);
+                    GameObject fire = Instantiate(FireEffect, FirePos[FireCount].transform.position, FirePos[FireCount].transform.rotation);
+                    fire.transform.SetParent(FirePos[FireCount]);
+                    Destroy(fire, 0.1f);
+                    if (FireCount < (FirePos.Count - 1))
+                    {
+                        FireCount++;
+                    }
+                    else
+                    {
+                        FireCount = 0;
+                    }
+                    for (int i = 0; i < HeatBarrel.Count; i++)
+                    {
+                        HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.b, Heat);
+                    }
+                    CoolTimeCount = 0;
                 }
             }
         }
@@ -256,55 +304,103 @@ public class TurretWeaponSystem : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-
-        //Check if there has been a hit yet
-        if (m_HitDetect)
+        if (LaserWeapon)
         {
-            //Draw a Ray forward from GameObject toward the hit
-            Gizmos.DrawRay(transform.position, transform.forward * m_Hit.distance);
-            //Draw a cube that extends to where the hit exists
-            Gizmos.DrawWireCube(transform.position + transform.forward * m_Hit.distance, transform.localScale);
-        }
-        //If there hasn't been a hit yet, draw the ray at the maximum distance
-        else
-        {
-            //Draw a Ray forward from GameObject toward the maximum distance
-            Gizmos.DrawRay(transform.position, transform.forward * 2000);
-            //Draw a cube at the maximum distance
-            Gizmos.DrawWireCube(transform.position + transform.forward * 2000, transform.localScale);
-        }
-    }
-    public void ChargeNotFullShoot(GameObject Player, Transform shootposition)
-    {
-        if (ChargeCount < 0.2f && ChargeCount > 0)
-        {
-            if (haveChargeAnim)
+            if (m_HitDetect)
             {
-                anim.SetBool("Charging", false);
+                //Draw a Ray forward from GameObject toward the hit
+                Gizmos.DrawRay(FirePos[0].transform.position, FirePos[0].transform.forward * m_Hit.distance);
+                //Draw a cube that extends to where the hit exists
+                Gizmos.DrawWireCube(FirePos[0].transform.position + FirePos[0].transform.forward * m_Hit.distance, FirePos[0].transform.localScale);
             }
-            Audio.clip = null;
-            Audio.Stop();
-            ChargeCount = 0;
-            ShootCount = 0;
-            SetBulletData(1, 1, 1);
-            Shoot(shootposition);
-            Heat += AddHeat;
-            GameObject fire = Instantiate(FireEffect, FirePos[FireCount].transform.position, FirePos[FireCount].transform.rotation);
-            fire.transform.SetParent(FirePos[FireCount]);
-            Destroy(fire, 0.1f);
-            if (FireCount < (FirePos.Count - 1))
-            {
-                FireCount++;
-            }
+            //If there hasn't been a hit yet, draw the ray at the maximum distance
             else
             {
-                FireCount = 0;
+                //Draw a Ray forward from GameObject toward the maximum distance
+                Gizmos.DrawRay(FirePos[0].transform.position, FirePos[0].transform.forward * 2000);
+                //Draw a cube at the maximum distance
+                Gizmos.DrawWireCube(FirePos[0].transform.position + FirePos[0].transform.forward * 2000, FirePos[0].transform.localScale);
             }
-            for (int i = 0; i < HeatBarrel.Count; i++)
+
+        }
+        //Check if there has been a hit yet
+    }
+
+    public void LaserShootCountStop()
+    {
+        laserCount = 0;
+        light.EndPos = new Vector3(0, 0, 0);
+        FirePos[0].rotation = new Quaternion(0, 0, 0 ,1);
+    }
+
+    void Lasershoot()
+    {
+        object[] damagedata = new object[2];
+        damageCount += Time.deltaTime;
+        laserCount += Time.deltaTime;
+        if (laserCount >= fulllaserTime)
+        {
+            damagedata[0] = Damage /10;
+            damagedata[1] = TrueDamage /10;
+            if (damageCount >= ShootSp)
             {
-                HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.b, Heat);
+
+                m_Hit.collider.gameObject.SendMessage("hit", damagedata);
+                damageCount = 0;
+                Heat += AddHeat/10;
             }
-            Audio.PlayOneShot(ShootSound);
+            
+        }
+        else
+        {
+            damagedata[0] = Damage;
+            damagedata[1] = TrueDamage;
+            m_Hit.collider.gameObject.SendMessage("hit", damagedata);
+            Heat += AddHeat;
+            damageCount = 0;
+            laserCount = 0;
+        }
+    }
+
+    public void ChargeNotFullShoot(GameObject Player, Transform shootposition)
+    {
+        if (LaserWeapon)
+        {
+
+        }
+        else
+        {
+            if (ChargeCount < 0.2f && ChargeCount > 0)
+            {
+                if (haveChargeAnim)
+                {
+                    anim.SetBool("Charging", false);
+                }
+                Audio.clip = null;
+                Audio.Stop();
+                ChargeCount = 0;
+                ShootCount = 0;
+                SetBulletData(1, 1, 1);
+                Shoot(shootposition);
+                Heat += AddHeat;
+                GameObject fire = Instantiate(FireEffect, FirePos[FireCount].transform.position, FirePos[FireCount].transform.rotation);
+                fire.transform.SetParent(FirePos[FireCount]);
+                Destroy(fire, 0.1f);
+                if (FireCount < (FirePos.Count - 1))
+                {
+                    FireCount++;
+                }
+                else
+                {
+                    FireCount = 0;
+                }
+                for (int i = 0; i < HeatBarrel.Count; i++)
+                {
+                    HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.b, Heat);
+                }
+                Audio.PlayOneShot(ShootSound);
+
+            }
         }
     }
 
@@ -392,19 +488,27 @@ public class TurretWeaponSystem : MonoBehaviour
     }
     void Shoot(Transform shootpos)
     {
-        Quaternion direction = shootpos.transform.rotation;
-        direction.x += Random.Range(-Deviation, Deviation);
-        direction.y += Random.Range(-Deviation, Deviation);
-        direction.z += Random.Range(-Deviation, Deviation);
-        GameObject ShootedBullet = Instantiate(MyBullet, shootpos.transform.position, direction);
-        ShootedBullet.SendMessage("SetShooter", user, SendMessageOptions.DontRequireReceiver);
-        Rigidbody ShootedBulletRB = ShootedBullet.GetComponent<Rigidbody>();
-        ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
-        Destroy(ShootedBullet, 5f);
-        if (HaveShell == true)
+        if (BulletOj != null)
         {
-            ShellOut();
+            Quaternion direction = shootpos.transform.rotation;
+            direction.x += Random.Range(-Deviation, Deviation);
+            direction.y += Random.Range(-Deviation, Deviation);
+            direction.z += Random.Range(-Deviation, Deviation);
+            GameObject ShootedBullet = Instantiate(MyBullet, shootpos.transform.position, direction);
+            ShootedBullet.SendMessage("SetShooter", user, SendMessageOptions.DontRequireReceiver);
+            Rigidbody ShootedBulletRB = ShootedBullet.GetComponent<Rigidbody>();
+            ShootedBulletRB.AddForce(direction * Vector3.forward * ShootedBullet.GetComponent<Bullet>().ShootForce, ForceMode.Impulse);
+            Destroy(ShootedBullet, 5f);
+            if (HaveShell == true)
+            {
+                ShellOut();
+            }
         }
+        else
+        {
+            Debug.Log("No Bullet obj");
+        }
+        
     }
 
     public void PlayCoolsound()
@@ -419,6 +523,7 @@ public class TurretWeaponSystem : MonoBehaviour
 
     void SetBulletData(float DamMul, float TDamMul, float ForMul)
     {
+        if (MyBullet != null)
         MyBullet.GetComponent<Bullet>().SetData(Damage * DamMul, TrueDamage * TDamMul, FireForce);
     }
 

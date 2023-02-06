@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8671109777723908537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8671109777723908536}
+  - component: {fileID: 8671109777723908539}
+  m_Layer: 0
+  m_Name: ChargeLazer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8671109777723908536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8671109777723908537}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -13.888079, y: 2.669887, z: 8.323105}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8671109777723908539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8671109777723908537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37c883f02f15573489db4f19be4add7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RWeapon: {fileID: 2966130316762018809, guid: 816de27d35c5d6740ad7bebb0c91b59f, type: 3}
+  LWeapon: {fileID: 696881871079250123, guid: 805704e2c63c95144865c2345f6eeb80, type: 3}
+  Level: 0
+  MaxLevel: 20
+  ShootSpeed: 800
+  Deviation: 0.001
+  Damage: 200
+  TrueDamage: 150
+  BulletNum: 1
+  AddHeat: 1
+  CoolAdd: 0.2
+  FullHeatCoolTime: 3
+  DamageMult: 2
+  TrueDamageMult: 2

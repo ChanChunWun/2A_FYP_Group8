@@ -51,11 +51,12 @@ public class PlayerTurretController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                Turret.GetComponent<TurretSystem>().Shoot(gameObject);
+                Turret.GetComponent<TurretSystem>().Shoot(gameObject, MyCam);
             }
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
+                Turret.GetComponent<TurretSystem>().LaserShootCountStop();
             }
 
             if (Input.GetKey(KeyCode.Mouse1))
@@ -84,11 +85,13 @@ public class PlayerTurretController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 ChangeWeapon(1);
+                Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 ChangeWeapon(2);
+                Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
             }
         }
     }

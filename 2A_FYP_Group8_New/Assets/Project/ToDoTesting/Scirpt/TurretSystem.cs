@@ -34,16 +34,21 @@ public class TurretSystem : MonoBehaviour
 
     }
 
-    public void Shoot(GameObject Player)
+    public void Shoot(GameObject Player, Camera cam)
     {
         User = Player;
-        ShowWeapons[UsingNo].GetComponent<TurretWeaponSystem>().Shoot(Player, ShootPos);
+        ShowWeapons[UsingNo].GetComponent<TurretWeaponSystem>().Shoot(Player, ShootPos, cam);
     }
 
     public void ChargeNotFullShoot(GameObject Player)
     {
         User = Player;
         ShowWeapons[UsingNo].GetComponent<TurretWeaponSystem>().ChargeNotFullShoot(Player, ShootPos);
+    }
+    public void LaserShootCountStop()
+    {
+        ShowWeapons[UsingNo].GetComponent<TurretWeaponSystem>().LaserShootCountStop();
+
     }
 
     public void SetUser(GameObject Player)
