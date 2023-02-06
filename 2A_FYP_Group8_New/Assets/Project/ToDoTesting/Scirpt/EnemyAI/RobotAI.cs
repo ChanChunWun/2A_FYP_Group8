@@ -21,6 +21,8 @@ public class RobotAI : MonoBehaviour
     public float timeBetweenAttacks;
     bool alreadyAttacked;
     public GameObject projectile;
+    public Transform projectileSpawnPos;
+    public float projectileForce;
 
     //States
     public float sightRange, attackRange;
@@ -75,22 +77,24 @@ public class RobotAI : MonoBehaviour
 
     private void AttackPlayer()
     {
-        //Make sure enemy doesn't move
+       
         agent.SetDestination(transform.position);
 
         transform.LookAt(player);
 
+
         if (!alreadyAttacked)
         {
-            ///Attack code here
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
-            ///End of attack code
+            ///Attack 
+            Rigidbody rb = Instantiate(projectile, projectileSpawnPos.position, projectileSpawnPos.rotation).GetComponent<Rigidbody>();
+            rb.AddForce(transform.forward * projectileForce, ForceMode.VelocityChange);
+            //rb.AddForce(transform.up * 1f, ForceMode.VelocityChange);
+            ///End of attack 
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
+        
     }
     private void ResetAttack()
     {
