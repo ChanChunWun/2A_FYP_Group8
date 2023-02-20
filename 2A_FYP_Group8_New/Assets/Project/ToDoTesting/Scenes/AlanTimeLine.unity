@@ -191,8 +191,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 325739575}
-  m_LocalRotation: {x: -0.000051437688, y: 0.9656784, z: -0.25974083, w: -0.00019123778}
-  m_LocalPosition: {x: 1.268312, y: 2.540001, z: 8.868997}
+  m_LocalRotation: {x: 0.0000026118207, y: 0.9899693, z: -0.14128272, w: 0.000018301056}
+  m_LocalPosition: {x: 1.2683121, y: 2.540001, z: 8.868997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3809,7 +3809,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 1471250296}
   m_Follow: {fileID: 829233066}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 50
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -3833,8 +3833,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1291653179}
-  m_LocalRotation: {x: 0.25388765, y: -0.66002864, z: 0.25395384, w: 0.65985656}
-  m_LocalPosition: {x: 2.840796, y: 1.700001, z: 18.733566}
+  m_LocalRotation: {x: 0.053304214, y: -0.1806731, z: 0.009806679, w: 0.98204875}
+  m_LocalPosition: {x: 1.574001, y: 1.230001, z: 17.105328}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3921,7 +3921,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1297129312}
-  m_LocalRotation: {x: -0.16579805, y: 0.8186367, z: -0.29087326, w: -0.46662375}
+  m_LocalRotation: {x: -0.16579802, y: 0.8186367, z: -0.29087323, w: -0.46662378}
   m_LocalPosition: {x: 2.618312, y: 1.260001, z: 6.168997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4258,8 +4258,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1622759084}
-  m_LocalRotation: {x: -0.16579805, y: 0.8186367, z: -0.29087326, w: -0.46662375}
-  m_LocalPosition: {x: 2.618312, y: 1.260001, z: 6.168997}
+  m_LocalRotation: {x: -0.038909618, y: 0.86506325, z: -0.06792754, w: -0.49551743}
+  m_LocalPosition: {x: 2.6183121, y: 1.260001, z: 6.168997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4322,6 +4322,7 @@ PlayableDirector:
     value: {fileID: 829233065}
   m_ExposedReferences:
     m_References:
+    - 3c6b97a99848f4840abf4bd26ec94fa0: {fileID: 1622759085}
     - ed29037f5556ccb429ac2c148c5e25ee: {fileID: 325739576}
     - d80a9246c9fca604897614355adacb2e: {fileID: 1622759085}
     - 39b8ae6b92926654f84be0ff027f43b9: {fileID: 1291653180}
@@ -4347,8 +4348,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2084687187}
   - component: {fileID: 2084687190}
-  - component: {fileID: 2084687189}
   - component: {fileID: 2084687188}
+  - component: {fileID: 2084687191}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -4384,7 +4385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 1.9, y: 1.7, z: 0}
+  m_FollowOffset: {x: 0.63, y: 1.23, z: -1.63}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -4393,7 +4394,19 @@ MonoBehaviour:
   m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
---- !u!114 &2084687189
+--- !u!114 &2084687190
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084687186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2084687191
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4420,15 +4433,3 @@ MonoBehaviour:
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
---- !u!114 &2084687190
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2084687186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
