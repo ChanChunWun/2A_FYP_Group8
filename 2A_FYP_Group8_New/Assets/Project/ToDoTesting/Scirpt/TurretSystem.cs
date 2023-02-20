@@ -44,6 +44,7 @@ public class TurretSystem : MonoBehaviour
     {
         User = Player;
         ShowWeapons[UsingNo].GetComponent<TurretWeaponSystem>().ChargeNotFullShoot(Player, ShootPos);
+        ShowWeapons[UsingNo].GetComponent<TurretWeaponSystem>().LaserShootCountStop();
     }
     public void LaserShootCountStop()
     {
@@ -107,6 +108,10 @@ public class TurretSystem : MonoBehaviour
         TurretObject[nos] = Weapon;
     }
 
+    public int GetUseNo()
+    {
+        return UsingNo;
+    }
     void ShowWeapon()
     {
         for (int i = 0; i < TurretObject.Count; i++)

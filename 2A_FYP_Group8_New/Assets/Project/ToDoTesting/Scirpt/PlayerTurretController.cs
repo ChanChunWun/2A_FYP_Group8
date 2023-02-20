@@ -28,7 +28,7 @@ public class PlayerTurretController : MonoBehaviour
         {
             UsingTurret = true;
         }
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Locked;
         SetcamPos();
         Turret.SendMessage("SetUser", gameObject);
     }
@@ -84,14 +84,21 @@ public class PlayerTurretController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                ChangeWeapon(1);
-                Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
+                if (Turret.GetComponent<TurretSystem>().GetUseNo() != 1)
+                {
+                    Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
+                    ChangeWeapon(1);
+
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                ChangeWeapon(2);
-                Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
+                if (Turret.GetComponent<TurretSystem>().GetUseNo() != 2)
+                {
+                    Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
+                    ChangeWeapon(2);
+                }
             }
         }
     }

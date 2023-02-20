@@ -74,6 +74,7 @@ public class TurretWeaponSystem : MonoBehaviour
     public float fulllaserTime = 2.5f; 
     float laserCount = 0;
     float damageCount = 0;
+    bool hitting;
 
     // Start is called before the first frame update
     void Start()
@@ -243,28 +244,46 @@ public class TurretWeaponSystem : MonoBehaviour
                     }
                     Vector3 Extents = new Vector3(_Extents / 2, _Extents / 2, FirePos[0].localScale.z);
 
-                    m_HitDetect = Physics.BoxCast(m_Collider.bounds.center, Extents, FirePos[0].forward, out m_Hit, FirePos[0].rotation, 2000);
-                    light.LineWidth = _Extents * 7;
-
-
-
-
-                    if (m_HitDetect)
+                    //m_HitDetect = Physics.BoxCast(m_Collider.bounds.center, Extents, FirePos[0].forward, out m_Hit, FirePos[0].rotation, 2000);
+                    if (Physics.BoxCast(m_Collider.bounds.center, Extents, FirePos[0].forward, out m_Hit, FirePos[0].rotation, 2000))
                     {
-                        Lasershoot();
-                        //light.StartPos = new Vector3(0, 0, m_Hit.distance / 1.5f);
-                        light.EndPos = new Vector3(0, 0, m_Hit.distance + 0.5f);
-                        Debug.Log("hit range: " + m_Hit.distance);
-                        Debug.Log("Hit : " + m_Hit.collider.name);
+                        m_HitDetect = Physics.BoxCast(m_Collider.bounds.center, Extents, FirePos[0].forward, out m_Hit, FirePos[0].rotation, 2000);
+                        hitting = true;
                     }
                     else
                     {
-                        Lasershoot();
-                        //light.StartPos = new Vector3(0, 0, 15);
-                        light.EndPos = new Vector3(0, 0, 2000);
-
+                        hitting = false;
                     }
-                
+                    light.LineWidth = _Extents * 10;
+
+                    if (CantUse != true)
+                    {
+                        if (hitting)
+                        {
+                            //Debug.Log("Hit");
+                            
+                            float dis = Vector3.Distance(FirePos[0].position, m_Hit.point) * 7.5f;
+                            Lasershoot();
+                            //light.StartPos = new Vector3(0, 0, m_Hit.distance / 1.5f);m_Hit.distance
+                            light.EndPos = new Vector3(0, 0, dis + 0.5f);
+                            //Debug.Log("hit range: " + m_Hit.distance);
+                            Debug.Log("Hit Range: " + dis);
+                        }
+                        else
+                        {
+                            //Debug.Log("no Hit");
+                            light.EndPos = new Vector3(0, 0, 2000f);
+                            Lasershoot();
+                            //light.StartPos = new Vector3(0, 0, 15);
+                            
+
+                        }
+                    }
+                    else
+                    {
+                        light.EndPos = new Vector3(0, 0, 0);
+                    }
+                    //Debug.Log("LaserRange" + light.EndPos.z);
                 }
                 else
                 {
@@ -299,6 +318,14 @@ public class TurretWeaponSystem : MonoBehaviour
                     CoolTimeCount = 0;
                 }
             }
+            else
+            {
+                if (LaserWeapon)
+                {
+                    light.LineWidth = 0;
+                    light.EndPos = new Vector3(0, 0, 0);
+                }
+            }
         }
     }
     void OnDrawGizmos()
@@ -328,9 +355,15 @@ public class TurretWeaponSystem : MonoBehaviour
 
     public void LaserShootCountStop()
     {
-        laserCount = 0;
-        light.EndPos = new Vector3(0, 0, 0);
-        FirePos[0].rotation = new Quaternion(0, 0, 0 ,1);
+        if (LaserWeapon)
+        {
+            laserCount = 0;
+            light.EndPos = new Vector3(0, 0, 0);
+            FirePos[0].rotation = new Quaternion(0, 0, 0, 1);
+            Audio.clip = null;
+            Audio.Stop();
+
+        }
     }
 
     void Lasershoot()
@@ -338,27 +371,45 @@ public class TurretWeaponSystem : MonoBehaviour
         object[] damagedata = new object[2];
         damageCount += Time.deltaTime;
         laserCount += Time.deltaTime;
-        if (laserCount >= fulllaserTime)
+        if (laserCount < fulllaserTime)
         {
-            damagedata[0] = Damage /10;
-            damagedata[1] = TrueDamage /10;
+            damagedata[0] = Damage * 0.05f;
+            damagedata[1] = TrueDamage * 0.05f;
             if (damageCount >= ShootSp)
             {
 
-                m_Hit.collider.gameObject.SendMessage("hit", damagedata);
+                if (hitting!=false)
+                {
+                    m_Hit.collider.gameObject.SendMessage("hit", damagedata, SendMessageOptions.DontRequireReceiver);
+                }
                 damageCount = 0;
-                Heat += AddHeat/10;
+                Heat += AddHeat * 0.01f;
             }
-            
+            if (!Audio.isPlaying)
+            {
+                Audio.clip = ChargeSound;
+                Audio.Play();
+            }
         }
         else
         {
             damagedata[0] = Damage;
             damagedata[1] = TrueDamage;
-            m_Hit.collider.gameObject.SendMessage("hit", damagedata);
+            if (hitting != false)
+            {
+                m_Hit.collider.gameObject.SendMessage("hit", damagedata, SendMessageOptions.DontRequireReceiver);
+            }
             Heat += AddHeat;
+            Audio.clip = null;
+            Audio.Stop();
+            Audio.PlayOneShot(ShootSound);
             damageCount = 0;
             laserCount = 0;
+            
+        }
+        for (int i = 0; i < HeatBarrel.Count; i++)
+        {
+            HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color = new Color(HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.r, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.g, HeatBarrel[i].GetComponent<MeshRenderer>().materials[1].color.b, Heat);
         }
     }
 
