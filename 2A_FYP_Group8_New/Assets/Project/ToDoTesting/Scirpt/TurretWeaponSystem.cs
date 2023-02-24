@@ -70,7 +70,8 @@ public class TurretWeaponSystem : MonoBehaviour
     bool m_HitDetect;
     Collider m_Collider;
     RaycastHit m_Hit;
-    public VolumetricLines.VolumetricLineBehavior light;
+    //public VolumetricLines.VolumetricLineBehavior light;
+    LaserEffect laserLight;
     public float fulllaserTime = 2.5f; 
     float laserCount = 0;
     float damageCount = 0;
@@ -82,6 +83,10 @@ public class TurretWeaponSystem : MonoBehaviour
         Audio = GetComponent<AudioSource>();
         ShootSp = 1 / (ShootSpeed / 60);
         Deviation += BulletOj.GetComponent<Bullet>().AddAccuracy;
+        if (LaserWeapon)
+        {
+            laserLight = BulletOj.GetComponent<LaserEffect>();
+        }
         SetHeatMat();
         if (BulletOj!=null)
         MyBullet = BulletOj;
@@ -216,6 +221,8 @@ public class TurretWeaponSystem : MonoBehaviour
                 }
                 else if (LaserWeapon == true)
                 {
+                    laserLight.gameObject.SetActive(true);
+
                     CoolTimeCount = 0;
                     Debug.Log(cam.gameObject.name);
                     RaycastHit hit;
@@ -254,7 +261,8 @@ public class TurretWeaponSystem : MonoBehaviour
                     {
                         hitting = false;
                     }
-                    light.LineWidth = _Extents * 10;
+                    laserLight.LineWidth = _Extents * 5;
+                    // * 10
 
                     if (CantUse != true)
                     {
@@ -262,17 +270,19 @@ public class TurretWeaponSystem : MonoBehaviour
                         {
                             //Debug.Log("Hit");
                             
-                            float dis = Vector3.Distance(FirePos[0].position, m_Hit.point) * 7.5f;
+                            float dis = (Vector3.Distance(FirePos[0].position, m_Hit.point) * 7.5f) + 0.5f;
                             Lasershoot();
                             //light.StartPos = new Vector3(0, 0, m_Hit.distance / 1.5f);m_Hit.distance
-                            light.EndPos = new Vector3(0, 0, dis + 0.5f);
+                            laserLight.endPoint = m_Hit.point;
+                            laserLight.hit = true;
                             //Debug.Log("hit range: " + m_Hit.distance);
                             Debug.Log("Hit Range: " + dis);
                         }
                         else
                         {
                             //Debug.Log("no Hit");
-                            light.EndPos = new Vector3(0, 0, 2000f);
+                            laserLight.endPoint = new Vector3(FirePos[0].position.x, FirePos[0].position.y, FirePos[0].position.z + 2000);
+                            laserLight.hit = false;
                             Lasershoot();
                             //light.StartPos = new Vector3(0, 0, 15);
                             
@@ -281,7 +291,7 @@ public class TurretWeaponSystem : MonoBehaviour
                     }
                     else
                     {
-                        light.EndPos = new Vector3(0, 0, 0);
+                        laserLight.LaserRange = 0;
                     }
                     //Debug.Log("LaserRange" + light.EndPos.z);
                 }
@@ -322,8 +332,9 @@ public class TurretWeaponSystem : MonoBehaviour
             {
                 if (LaserWeapon)
                 {
-                    light.LineWidth = 0;
-                    light.EndPos = new Vector3(0, 0, 0);
+                    laserLight.gameObject.SetActive(false);
+                    //laserLight.LineWidth = 0;
+                    //laserLight.LaserRange = 0;
                 }
             }
         }
@@ -358,7 +369,9 @@ public class TurretWeaponSystem : MonoBehaviour
         if (LaserWeapon)
         {
             laserCount = 0;
-            light.EndPos = new Vector3(0, 0, 0);
+            laserLight.gameObject.SetActive(false);
+
+            //laserLight.LaserRange = 0;
             FirePos[0].rotation = new Quaternion(0, 0, 0, 1);
             Audio.clip = null;
             Audio.Stop();

@@ -84,7 +84,7 @@ public class PlayerTurretController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                if (Turret.GetComponent<TurretSystem>().GetUseNo() != 1)
+                if (Turret.GetComponent<TurretSystem>().GetUseNo() != 0)
                 {
                     Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
                     ChangeWeapon(1);
@@ -94,7 +94,7 @@ public class PlayerTurretController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                if (Turret.GetComponent<TurretSystem>().GetUseNo() != 2)
+                if (Turret.GetComponent<TurretSystem>().GetUseNo() != 1)
                 {
                     Turret.GetComponent<TurretSystem>().ChargeNotFullShoot(gameObject);
                     ChangeWeapon(2);
