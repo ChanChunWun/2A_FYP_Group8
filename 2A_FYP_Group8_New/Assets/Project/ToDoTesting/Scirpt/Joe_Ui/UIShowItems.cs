@@ -54,4 +54,9 @@ public class UIShowItems : MonoBehaviour
         showIngOj = Instantiate(items[nowItem], beforeStartPoint);
         showIngOj.transform.SetParent(transform);
     }
+
+    public void ChoosedItem(GameObject target)
+    {
+        target.SendMessage("SetItem", showIngOj);
+    }
 }
