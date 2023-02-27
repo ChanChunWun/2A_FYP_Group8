@@ -80,6 +80,7 @@ public class TurretWeaponSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         Audio = GetComponent<AudioSource>();
         ShootSp = 1 / (ShootSpeed / 60);
         Deviation += BulletOj.GetComponent<Bullet>().AddAccuracy;
@@ -101,6 +102,7 @@ public class TurretWeaponSystem : MonoBehaviour
         if (LaserWeapon)
         {
             m_Collider = FirePos[0].GetComponent<Collider>();
+            laserLight.gameObject.SetActive(false);
         }
     }
 
@@ -261,7 +263,7 @@ public class TurretWeaponSystem : MonoBehaviour
                     {
                         hitting = false;
                     }
-                    laserLight.LineWidth = _Extents * 5;
+                    laserLight.LineWidth = _Extents * 0.5f;
                     // * 10
 
                     if (CantUse != true)
@@ -272,8 +274,8 @@ public class TurretWeaponSystem : MonoBehaviour
                             
                             float dis = (Vector3.Distance(FirePos[0].position, m_Hit.point) * 7.5f) + 0.5f;
                             Lasershoot();
-                            //light.StartPos = new Vector3(0, 0, m_Hit.distance / 1.5f);m_Hit.distance
-                            laserLight.endPoint = m_Hit.point;
+                            Vector3 _endPoint = new Vector3(m_Hit.point.x, m_Hit.point.y , m_Hit.point.z);
+                            laserLight.endPoint = _endPoint;
                             laserLight.hit = true;
                             //Debug.Log("hit range: " + m_Hit.distance);
                             Debug.Log("Hit Range: " + dis);
