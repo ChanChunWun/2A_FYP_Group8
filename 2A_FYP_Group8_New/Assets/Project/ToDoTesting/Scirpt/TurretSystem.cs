@@ -21,10 +21,16 @@ public class TurretSystem : MonoBehaviour
     int UsingNo = 0;
     float xRotat = 0;
     List<GameObject> ShowWeapons = new List<GameObject>();
+    ItemManager itemsManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        TurretObject = new List<GameObject>();
+        itemsManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
+        TurretObject.Add(itemsManager.GetWeapon("right").gameObject);
+        TurretObject.Add(itemsManager.GetWeapon("left").gameObject);
+
         ShowWeapon();
     }
 

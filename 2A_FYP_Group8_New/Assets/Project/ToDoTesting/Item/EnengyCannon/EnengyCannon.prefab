@@ -54,8 +54,8 @@ MonoBehaviour:
   Damage: 100
   TrueDamage: 150
   BulletNum: 1
-  AddHeat: 0.01
-  CoolAdd: 0.02
+  AddHeat: 0.5
+  CoolAdd: 0.03
   FullHeatCoolTime: 3
   DamageMult: 2
   TrueDamageMult: 3

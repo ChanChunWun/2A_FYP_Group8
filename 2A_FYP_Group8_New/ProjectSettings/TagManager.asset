@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - RightWeapon
   - LeftWeapon
+  - Menu
   layers:
   - Default
   - TransparentFX
