@@ -11,12 +11,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/UnityTechnologies/VehicleTools/Scenes/TestTrack.unity
     guid: 39dd73fe576aa7f46b6735a5fa664b0e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Project/ToDoTesting/Scenes/JoeUITesting.unity
     guid: 83ea4b870603d9640a99c663d654ae98
-  - enabled: 1
+  - enabled: 0
     path: Assets/Project/ToDoTesting/Scenes/JoeTesting.unity
     guid: 4a1eb81420c5dd84c8fa34e9a1b10c5c
+  - enabled: 1
+    path: Assets/Project/ToDoTesting/Scenes/StartScene.unity
+    guid: 5b1781c1f8fbf9343859b170369b3bec
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 7d14de2801088fb4ca6b716f0739ee3a,
       type: 2}

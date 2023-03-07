@@ -22,6 +22,8 @@ public class DroneAI : MonoBehaviour
     public float flyHeightRange;
     public float canShootRange = 50;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
