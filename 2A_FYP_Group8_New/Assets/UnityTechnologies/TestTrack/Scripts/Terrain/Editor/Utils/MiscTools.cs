@@ -50,11 +50,6 @@ namespace com.unity.testtrack.terrainsystem.editor
 						alphaMapData.terrain = terrain;
 						updateManager.m_basedAlphaMaps.Add(alphaMapData);
 					}
-
-					{
-						if (!terrain.TryGetComponent<TerrainPhysicalMaterialExtension>(out var component))
-							terrain.gameObject.AddComponent<TerrainPhysicalMaterialExtension>();
-					}
 				}
 			}
 		}

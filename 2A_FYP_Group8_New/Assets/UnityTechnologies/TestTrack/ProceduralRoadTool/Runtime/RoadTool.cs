@@ -551,12 +551,6 @@ namespace ProceduralRoadTool
                 zone.m_filters = template.settings.ExclusionZoneFilters;
             }
 
-            if (template.settings.physicalProperties.Count > 0)
-			{
-                var physicalExt = proceduralObject.AddComponent<PhysicalMaterialExtension>();
-                physicalExt._physicalProperties = template.settings.physicalProperties;
-            }
-
             if (template.settings.physicMaterial != null)
             {
                 var collider = proceduralObject.GetComponent<Collider>();

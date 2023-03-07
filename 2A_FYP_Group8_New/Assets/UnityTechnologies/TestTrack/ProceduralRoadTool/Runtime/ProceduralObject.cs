@@ -57,7 +57,6 @@ namespace ProceduralRoadTool
         public float roadWidth = 2.0f;
         public bool isHidden = false;
         public PhysicMaterial physicMaterial;
-        public List<PhysicalProperty> physicalProperties = new List<PhysicalProperty>();
 
         [Header("Terrain splatting Params")]
         public AlphaSplatDefinition splatDefinition;
