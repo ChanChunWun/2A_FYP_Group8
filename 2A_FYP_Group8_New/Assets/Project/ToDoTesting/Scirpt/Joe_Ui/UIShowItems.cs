@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using TMPro;
+
 
 public class UIShowItems : MonoBehaviour
 {
@@ -9,7 +12,7 @@ public class UIShowItems : MonoBehaviour
     public List<GameObject> items;
     public Transform beforeStartPoint;
     public Transform afterStartPoint;
-    public Text _text;
+    public TMP_Text _text;
     public Transform stopPoint;
 
     ItemManager itemManager;
@@ -18,7 +21,7 @@ public class UIShowItems : MonoBehaviour
     string type = "left";
     void Start()
     {
-        type = "left";
+        type = "right";
         itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
         showIngOj = Instantiate(items[nowItem], afterStartPoint);
         showIngOj.transform.SetParent(transform);
@@ -27,7 +30,7 @@ public class UIShowItems : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _text.text = "Please choose " + type + " weapon";
+        _text.text = "Please choose " + type + " arm weapon";
         float step = 50 * Time.deltaTime;
         //Debug.Log(step);
         showIngOj.transform.position = Vector3.MoveTowards(showIngOj.transform.position, stopPoint.position,step );
@@ -65,14 +68,14 @@ public class UIShowItems : MonoBehaviour
 
     public void changeType()
     {
-        if (type == "left")
-        {
-            type = "right";
-        }
-        else if (type == "right")
+        if (type == "right")
         {
             type = "left";
-            ScenceManager.goScene("JoeTesting");
+        }
+        else if (type == "left")
+        {
+            type = "right";
+            ScenceManager.goScene("TestTrack");
         }
     }
 
