@@ -22,7 +22,13 @@ public class missions : ScriptableObject
 
     public string missionName;
 
-    public bool isDone = false;
+    public string missionDescribe;
+
+    public string missionTargetText;
+
+    public float missionAward;
+
+    //public bool isDone = false;
 
     //Annihilate
     public int killNumber;

@@ -21,6 +21,12 @@ public class MissionEditor : Editor
 
     SerializedProperty missionNamePorp;
 
+    SerializedProperty missionDescribePorp;
+
+    SerializedProperty missionAwardPorp;
+
+    SerializedProperty missionTargetTextProp;
+
     private void OnEnable()
     {
         typeProp = serializedObject.FindProperty("type");
@@ -30,6 +36,9 @@ public class MissionEditor : Editor
         missionIDProp = serializedObject.FindProperty("missionID");
         missionNamePorp = serializedObject.FindProperty("missionName");
         timeLimitedProp = serializedObject.FindProperty("timeLimited");
+        missionDescribePorp = serializedObject.FindProperty("missionDescribe");
+        missionAwardPorp = serializedObject.FindProperty("missionAward");
+        missionTargetTextProp = serializedObject.FindProperty("missionTargetText");
     }
 
     public override void OnInspectorGUI()
@@ -40,6 +49,9 @@ public class MissionEditor : Editor
         EditorGUILayout.Space();
         EditorGUILayout.PropertyField(missionIDProp);
         EditorGUILayout.PropertyField(missionNamePorp);
+        EditorGUILayout.PropertyField(missionDescribePorp);
+        EditorGUILayout.PropertyField(missionTargetTextProp);
+        EditorGUILayout.PropertyField(missionAwardPorp);
 
         var type = (missions.missionType)typeProp.intValue;
         switch (type)
