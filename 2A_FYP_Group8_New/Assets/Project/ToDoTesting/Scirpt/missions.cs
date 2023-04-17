@@ -18,6 +18,8 @@ public class missions : ScriptableObject
 
     public missionType type;
 
+    public string missionSceneName;
+
     public string missionID;
 
     public string missionName;

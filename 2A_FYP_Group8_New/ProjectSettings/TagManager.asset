@@ -9,6 +9,7 @@ TagManager:
   - RightWeapon
   - LeftWeapon
   - Menu
+  - DesSpawnPos
   layers:
   - Default
   - TransparentFX

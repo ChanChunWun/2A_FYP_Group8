@@ -17,6 +17,8 @@ public class MissionEditor : Editor
 
     SerializedProperty killNumberProp;
 
+    SerializedProperty missionScNameProp;
+
     SerializedProperty missionIDProp;
 
     SerializedProperty missionNamePorp;
@@ -39,6 +41,7 @@ public class MissionEditor : Editor
         missionDescribePorp = serializedObject.FindProperty("missionDescribe");
         missionAwardPorp = serializedObject.FindProperty("missionAward");
         missionTargetTextProp = serializedObject.FindProperty("missionTargetText");
+        missionScNameProp = serializedObject.FindProperty("missionSceneName");
     }
 
     public override void OnInspectorGUI()
@@ -52,6 +55,7 @@ public class MissionEditor : Editor
         EditorGUILayout.PropertyField(missionDescribePorp);
         EditorGUILayout.PropertyField(missionTargetTextProp);
         EditorGUILayout.PropertyField(missionAwardPorp);
+        EditorGUILayout.PropertyField(missionScNameProp);
 
         var type = (missions.missionType)typeProp.intValue;
         switch (type)

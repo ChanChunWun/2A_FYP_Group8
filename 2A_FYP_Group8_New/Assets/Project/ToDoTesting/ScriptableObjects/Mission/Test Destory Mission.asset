@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Test Destory Mission
   m_EditorClassIdentifier: 
   type: 1
+  missionSceneName: TestTrack
   missionID: D01
   missionName: Test Destory Mission
   missionDescribe: Test Destory Mission testing testing testing testing testing testing
@@ -20,7 +21,6 @@ MonoBehaviour:
     testing testing testing
   missionTargetText: 'Destory: testObj'
   missionAward: 2000
-  isDone: 0
   killNumber: 0
   destroyObject: []
   timeLimited: 9999

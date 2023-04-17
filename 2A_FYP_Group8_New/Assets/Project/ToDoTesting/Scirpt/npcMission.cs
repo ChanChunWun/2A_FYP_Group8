@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New NPC", menuName = "FYP/NPC")]
-public class npcMissionSystem : ScriptableObject
+public class npcMission : ScriptableObject
 {
     public GameObject prefebMissionUI;
     public missions[] mainMissionList;
@@ -26,8 +26,8 @@ public class npcMissionSystem : ScriptableObject
 
     void SpawnMission(missions showMis)
     {
-        GameObject missionUI = Instantiate(prefebMissionUI);
-        missionUI.GetComponent<missionUI>().showMission = showMis;
+        //GameObject missionUI = Instantiate(prefebMissionUI);
+        //missionUI.GetComponent<missionUI>().showMission = showMis;
     }
 
     void ResetMinorMission()
