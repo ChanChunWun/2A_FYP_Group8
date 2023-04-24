@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefebMissionUI: {fileID: 0}
   mainMissionList: []
-  minorMissionList: []
+  minorMissionList:
+  - {fileID: 11400000, guid: 5a06e20424b020e4a93816d8ad5451a1, type: 2}
+  - {fileID: 11400000, guid: 5a06e20424b020e4a93816d8ad5451a1, type: 2}
+  - {fileID: 11400000, guid: 0fb2e3769ff460a45979831740803c76, type: 2}
+  - {fileID: 11400000, guid: 0fb2e3769ff460a45979831740803c76, type: 2}
   showMinorMissionList: []
   showMissionNumber: 3

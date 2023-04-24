@@ -30,10 +30,13 @@ public class missions : ScriptableObject
 
     public float missionAward;
 
-    //public bool isDone = false;
+    public string missionTargetName;
+
+    public bool isDone = false;
 
     //Annihilate
     public int killNumber;
+    public int killedNumber = 0;
 
     //Destroy
     public GameObject[] destroyObject;
@@ -42,5 +45,16 @@ public class missions : ScriptableObject
     // Boss
     public GameObject bossPrefab;
 
-    
+    //Funion
+    public void IncreaseKillNumber()
+    {
+        if (killedNumber < killNumber)
+            killedNumber++;
+        else
+            isDone = true;
+        
+    }
+
+
+
 }

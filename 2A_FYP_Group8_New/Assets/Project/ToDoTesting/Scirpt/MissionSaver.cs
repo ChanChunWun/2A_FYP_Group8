@@ -19,7 +19,7 @@ public class MissionSaver : Singleton<MissionSaver>
         
     }
 
-    public void TakeMission(missions mission)
+    public void SetMission(missions mission)
     {
         takenMissions.Add(mission);
     }
@@ -38,5 +38,19 @@ public class MissionSaver : Singleton<MissionSaver>
     public List<missions> GetMissionList()
     {
         return takenMissions;
+    }
+
+    public void MissionDoing(string targetName)
+    {
+        if (takenMissions.Count <= 0)
+            return;
+
+        for (int i = 0; i < takenMissions.Count; i++)
+        {
+            if (takenMissions[i].missionTargetName == targetName)
+            {
+                takenMissions[i].IncreaseKillNumber();
+            }
+        }
     }
 }

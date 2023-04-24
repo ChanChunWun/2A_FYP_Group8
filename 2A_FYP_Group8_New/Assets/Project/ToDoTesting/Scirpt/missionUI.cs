@@ -19,27 +19,51 @@ public class missionUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ShowMissionStart();
+       // ShowMissionStart();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (showMission != null)
+        {
+            if (MissionSaver.Instance.GetMissionList().Count < 0)
+                return;
+
+            foreach (missions mission in MissionSaver.Instance.GetMissionList())
+            {
+                if (mission == showMission)
+                {
+                    btn_Get.interactable = false;
+                }
+                else
+                {
+                    btn_Get.interactable = true;
+                }
+            }
+        }
     }
 
-    public void ShowMissionStart()
+    public void ShowMissionStart(missions mission)
     {
-        if (showMission == null)
+        if (mission == null)
             return;
 
+        showMission = mission;
         text_Name.text = showMission.missionName;
         text_MissionType.text = showMission.type.ToString();
+        text_TargetScene.text = "Location: " + showMission.missionSceneName;
         text_Describe.text = showMission.missionDescribe;
         text_Name.text = showMission.missionName;
         text_Target.text = showMission.missionTargetText;
         text_Award.text = "Award: " + showMission.missionAward.ToString(); 
         
+    }
+
+    public void SaveAndGetMission()
+    {
+        Debug.Log("Set Mission: " + showMission.missionName);
+        MissionSaver.Instance.SetMission(showMission);
     }
 
 }

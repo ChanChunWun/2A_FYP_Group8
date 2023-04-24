@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LifeSystem : MonoBehaviour
 {
+    public bool ai = true;
     public bool MainBody;
     public float Armor = 60;
     public float MaxHp = 500;
@@ -11,6 +12,7 @@ public class LifeSystem : MonoBehaviour
     public bool nonMainHit; // will take damage too when it is not mainbody
     public GameObject LinkBody;
     public bool dead = false;
+    bool sent = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +72,11 @@ public class LifeSystem : MonoBehaviour
         if (hp <= 0)
         {
             dead = true;
+            if (dead && !sent)
+            {
+                sent = true;
+                MissionSaver.Instance.MissionDoing(GetComponent<EnemyAIName>().enemyName);
+            }
         }
     }
 }
