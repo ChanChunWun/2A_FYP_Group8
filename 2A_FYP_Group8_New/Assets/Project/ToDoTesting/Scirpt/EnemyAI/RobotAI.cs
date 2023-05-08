@@ -1,7 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.AI;
-
+//By Ray
 public class RobotAI : MonoBehaviour
 {
     public NavMeshAgent agent;
@@ -10,7 +10,7 @@ public class RobotAI : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsPlayer;
 
-    public float health;
+    //public float health;
 
     //Patroling
     public Vector3 walkPoint;
@@ -28,10 +28,18 @@ public class RobotAI : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    //Joe add
+    public Transform hand;
+    public TurretWeaponSystem Wp;
+    LifeSystem lf;
+
+
     private void Awake()
     {
-        player = GameObject.Find("PlayerObj").transform;
+        player = GameObject.FindWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        //Wp = hand.GetComponent<TurretWeaponSystem>();
+        lf = GetComponent<LifeSystem>();
     }
 
     private void Update()
@@ -101,12 +109,7 @@ public class RobotAI : MonoBehaviour
         alreadyAttacked = false;
     }
 
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
 
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
-    }
     private void DestroyEnemy()
     {
         Destroy(gameObject);

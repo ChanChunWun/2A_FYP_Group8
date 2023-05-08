@@ -26,22 +26,7 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-    public static void s_showOnceUI(GameObject UI)
-    {
-        GameObject[] menus = GameObject.FindGameObjectsWithTag("Menu");
-        for (int i = 0; i < menus.Length; i++)
-        {
-            if (menus[i] == UI)
-            {
-                UI.SetActive(true);
-            }
-            else
-            {
-                menus[i].SendMessage("Clean", SendMessageOptions.DontRequireReceiver);
-                menus[i].SetActive(false);
-            }
-        }
-    }
+
     public static void menuOn()
     {
         Time.timeScale = 0;
