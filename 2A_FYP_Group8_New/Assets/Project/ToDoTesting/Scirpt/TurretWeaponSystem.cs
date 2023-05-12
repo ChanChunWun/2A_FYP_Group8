@@ -24,6 +24,7 @@ public class TurretWeaponSystem : MonoBehaviour
     public int BulletNum = 1;
     public List<GameObject> HeatBarrel;
     public GameObject BulletOj;
+    GameInput bullet;
     public float AddHeat = 0.01f;
     public float CoolAdd = 0.02f;
     public float FullHeatCoolTime = 3f;
@@ -80,7 +81,7 @@ public class TurretWeaponSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
         Audio = GetComponent<AudioSource>();
         ShootSp = 1 / (ShootSpeed / 60);
         Deviation += BulletOj.GetComponent<Bullet>().AddAccuracy;
