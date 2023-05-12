@@ -81,17 +81,18 @@ public class InventoryController : MonoBehaviour
         CreateRandomItem();
         InventoryItem itemToInsert = selectedItem;
         selectedItem = null;
-        InsertItem(itemToInsert);
+        if (!InsertItem(itemToInsert))
+            Destroy(itemToInsert.gameObject);
     }
 
-    private void InsertItem(InventoryItem itemToInsert)
+    private bool InsertItem(InventoryItem itemToInsert)
     {
-        
         Vector2Int? posOnGrid = selectedItemGrid.FindSpaceForObject(itemToInsert);
-
-        if(posOnGrid == null) { return; }
+        if (posOnGrid == null)
+            return false;
 
         selectedItemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
+        return true;
     }
 
     Vector2Int oldPosition;
