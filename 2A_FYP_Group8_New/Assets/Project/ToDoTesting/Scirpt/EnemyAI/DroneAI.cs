@@ -42,8 +42,8 @@ public class DroneAI : MonoBehaviour
     public Transform shootPoint;
 
     public float speed;
-    [Range(1.5f, 4f)]
-    public float flyHeightRange = 4.5f;
+    [Range(1.5f, 7f)]
+    public float flyHeightRange = 7f;
     public float canShootRange = 50;
 
 
@@ -55,7 +55,8 @@ public class DroneAI : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         lfSys = GetComponent<LifeSystem>();
-        fixedFlyHeight = Random.Range(minFlyHeight, flyHeightRange);
+        fixedFlyHeight = Random.Range(minFlyHeight, flyHeightRange) + 5;
+        agent.baseOffset = fixedFlyHeight;
     }
 
     private void Update()
@@ -102,31 +103,65 @@ public class DroneAI : MonoBehaviour
 
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        
+        if (Vector3.Distance(player.transform.position, transform.position) > 40)
+        {
+            agent.speed = speed;
+            agent.SetDestination(player.transform.position);
+        }
+        else if (Vector3.Distance(player.transform.position, transform.position) <= 40)
+        {
+            agent.speed = 0;
+            agent.SetDestination(transform.position);
+        }
+
+        float animSpeed = agent.velocity.magnitude / speed;
+        anim.SetFloat("Speed", animSpeed);
     }
 
     private void AttackPlayer()
-    {
-        if (!lfSys.dead)
-            return;
+    {        
 
-        agent.SetDestination(transform.position);
-
-        transform.LookAt(player);
-
-        hand.transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
-
-        if (target != null)
+        if (Vector3.Distance(player.transform.position, transform.position) > 40)
         {
+            agent.speed = speed;
+            agent.SetDestination(player.transform.position);
+        }
+        else if (Vector3.Distance(player.transform.position, transform.position) <= 40)
+        {
+            agent.speed = 0;
+            agent.SetDestination(transform.position);
+        }
 
-            if (Physics.Raycast(shootPoint.position, target.transform.position, out hit, canShootRange))
+        float animSpeed = agent.velocity.magnitude / speed;
+        anim.SetFloat("Speed", animSpeed);
+
+        transform.LookAt(new Vector3(player.position.x, transform.position.y, player.transform.position.z));
+
+        Vector3 playerCenter = new Vector3(player.position.x, player.position.y + 1 , player.position.z);
+        hand.transform.LookAt(playerCenter);
+
+        //hand transform.eulerAngles = 
+        //hand.transform.rotation = Quaternion.Slerp(hand.transform.rotation, rotation, Time.deltaTime * 2);
+
+        //var pos = player.position - hand.position;
+        //var angle = Quaternion.LookRotation(pos, Vector3.up).eulerAngles;
+        //hand.transform.rotation = Quaternion.Euler(Vector3.Scale(angle, new Vector3(0, 1, 0)));
+        //hand.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(Vector3.Scale(angle, new Vector3(0, 1, 0))));
+
+
+
+        Debug.DrawLine(shootPoint.position, shootPoint.transform.forward * canShootRange,Color.red);
+
+            if (Physics.Raycast(shootPoint.position, shootPoint.transform.forward * canShootRange, out hit))
             {
-                if (hit.transform.gameObject == target)
+                Debug.Log("Hit" + hit.transform.name);
+                if (hit.transform.tag.Equals("Player"))
                 {
                     weapon.GetComponent<TurretWeaponSystem>().Shoot(gameObject, shootPoint, null);
                 }
             }
-        } 
+        
 
         
 
