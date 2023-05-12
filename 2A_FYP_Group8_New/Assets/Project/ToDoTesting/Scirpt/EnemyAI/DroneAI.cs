@@ -55,7 +55,7 @@ public class DroneAI : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         lfSys = GetComponent<LifeSystem>();
-        fixedFlyHeight = Random.Range(minFlyHeight, flyHeightRange) + 10;
+        fixedFlyHeight = Random.Range(minFlyHeight, flyHeightRange) + 5;
         agent.baseOffset = fixedFlyHeight;
     }
 
@@ -138,7 +138,7 @@ public class DroneAI : MonoBehaviour
 
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.transform.position.z));
 
-        Vector3 playerCenter = new Vector3(player.position.x, player.position.y , player.position.z);
+        Vector3 playerCenter = new Vector3(player.position.x, player.position.y + 1 , player.position.z);
         hand.transform.LookAt(playerCenter);
 
         //hand transform.eulerAngles = 
