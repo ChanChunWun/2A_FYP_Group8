@@ -15,5 +15,5 @@ MonoBehaviour:
   ID: 0
   width: 1
   height: 2
-  price: 100
+  price: 30
   itemIcon: {fileID: 21300000, guid: 6d6b3883e68b6934db289d4848a9d481, type: 3}
