@@ -55,6 +55,11 @@ public class missions : ScriptableObject
         
     }
 
+    public void Reset()
+    {
+        killedNumber = 0;
+        isDone = false;
+    }
 
 
 }
