@@ -49,7 +49,7 @@ public class InventoryItem : MonoBehaviour
         GetComponent<RectTransform>().sizeDelta = size;
     }
 
-    internal void Rotata()
+    internal void Rotate()
     {
         rotated = !rotated;
 

@@ -1,13 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryController : MonoBehaviour
+public class InventoryController : Singleton<InventoryController>
 {
     [HideInInspector]
     private ItemGrid selectedItemGrid;
-    public ItemGrid SelectedItemGrid { get => selectedItemGrid;
+    public ItemGrid SelectedItemGrid
+    {
+        get => selectedItemGrid;
         set
         {
             selectedItemGrid = value;
@@ -15,9 +15,9 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    InventoryItem selectedItem;
+    public InventoryItem SelectedItem { get; private set; }
+    RectTransform selectedRect;
     InventoryItem overlapItem;
-    RectTransform rectTransform;
 
     [SerializeField] List<ItemData> items;
     [SerializeField] GameObject itemPrefab;
@@ -25,16 +25,15 @@ public class InventoryController : MonoBehaviour
 
     InventoryHighlight inventoryHighlight;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         inventoryHighlight = GetComponent<InventoryHighlight>();
     }
-
 
     private void Update()
     {
         ItemIconDrag();
-
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -63,24 +62,18 @@ public class InventoryController : MonoBehaviour
         {
             LeftMouseButtonPress();
         }
-
-
     }
 
     private void RotateItem()
-    {
-        if(selectedItem == null) { return; }
-
-        selectedItem.Rotata();
-    }
+        => SelectedItem?.Rotate();
 
     private void InsertRandomItem()
     {
         if (selectedItemGrid == null) { return; }
 
         CreateRandomItem();
-        InventoryItem itemToInsert = selectedItem;
-        selectedItem = null;
+        InventoryItem itemToInsert = SelectedItem;
+        SelectedItem = null;
         if (!InsertItem(itemToInsert))
             Destroy(itemToInsert.gameObject);
     }
@@ -104,7 +97,7 @@ public class InventoryController : MonoBehaviour
         if (oldPosition == positionOnGrid) { return; }
 
         oldPosition = positionOnGrid;
-        if (selectedItem == null)
+        if (SelectedItem == null)
         {
             itemToHighlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
 
@@ -124,22 +117,22 @@ public class InventoryController : MonoBehaviour
             inventoryHighlight.Show(selectedItemGrid.BoundryCheck(
                 positionOnGrid.x, 
                 positionOnGrid.y,
-                selectedItem.WIDTH,
-                selectedItem.HEIGHT)
+                SelectedItem.WIDTH,
+                SelectedItem.HEIGHT)
                 );
-            inventoryHighlight.SetSize(selectedItem);
-            inventoryHighlight.SetPosition(selectedItemGrid, selectedItem, positionOnGrid.x, positionOnGrid.y);
+            inventoryHighlight.SetSize(SelectedItem);
+            inventoryHighlight.SetPosition(selectedItemGrid, SelectedItem, positionOnGrid.x, positionOnGrid.y);
         }
     }
 
     private void CreateRandomItem()
     {
         InventoryItem inventoryItem = Instantiate(itemPrefab).GetComponent<InventoryItem>();
-        selectedItem = inventoryItem;
+        SelectedItem = inventoryItem;
 
-        rectTransform = inventoryItem.GetComponent<RectTransform>();
-        rectTransform.SetParent(canvasTransform);
-        rectTransform.SetAsLastSibling();
+        selectedRect = inventoryItem.GetComponent<RectTransform>();
+        selectedRect.SetParent(canvasTransform);
+        selectedRect.SetAsLastSibling();
 
         int selectedItemID = UnityEngine.Random.Range(0, items.Count);
         inventoryItem.Set(items[selectedItemID]);
@@ -150,7 +143,7 @@ public class InventoryController : MonoBehaviour
     {
         Vector2Int tileGridPosition = GetTileGridPosition();
 
-        if (selectedItem == null)
+        if (SelectedItem == null)
         {
             PickUpItem(tileGridPosition);
         }
@@ -164,10 +157,10 @@ public class InventoryController : MonoBehaviour
     {
         Vector2 position = Input.mousePosition;
 
-        if (selectedItem != null)
+        if (SelectedItem != null)
         {
-            position.x -= (selectedItem.WIDTH - 1) * ItemGrid.tileSizeWidth / 2;
-            position.y += (selectedItem.HEIGHT - 1) * ItemGrid.tileSizeHeight / 2;
+            position.x -= (SelectedItem.WIDTH - 1) * ItemGrid.tileSizeWidth / 2;
+            position.y += (SelectedItem.HEIGHT - 1) * ItemGrid.tileSizeHeight / 2;
         }
 
         return selectedItemGrid.GetTileGridPosition(position); 
@@ -175,36 +168,36 @@ public class InventoryController : MonoBehaviour
 
     private void PlaceItem(Vector2Int tileGridPosition)
     {
-        bool complete = selectedItemGrid.PlaceItem(selectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
+        bool complete = selectedItemGrid.PlaceItem(SelectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
         if (complete)
         {
-            selectedItem = null;
+            SelectedItem = null;
 
             if(overlapItem != null)
             {
-                selectedItem = overlapItem;
+                SelectedItem = overlapItem;
                 overlapItem = null;
-                rectTransform = selectedItem.GetComponent<RectTransform>();
-                rectTransform.SetAsLastSibling();
+                selectedRect = SelectedItem.GetComponent<RectTransform>();
+                selectedRect.SetAsLastSibling();
             }
         } 
     }
 
     private void PickUpItem(Vector2Int tileGridPosition)
     {
-        selectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
+        SelectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
 
-        if (selectedItem != null)
+        if (SelectedItem != null)
         {
-            rectTransform = selectedItem.GetComponent<RectTransform>();
+            selectedRect = SelectedItem.GetComponent<RectTransform>();
         }
     }
 
     private void ItemIconDrag()
     {
-        if (selectedItem != null)
+        if (SelectedItem != null)
         {
-            rectTransform.position = Input.mousePosition;
+            selectedRect.position = Input.mousePosition;
         }
     }
 }

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d821628e124ec45a8f870c8a1650f7, type: 3}
   m_Name: Money
   m_EditorClassIdentifier: 
-  width: 1
-  height: 1
+  width: 3
+  height: 2
   ID: 0
-  price: 0
-  itemIcon: {fileID: 0}
+  price: 100
+  itemIcon: {fileID: 21300000, guid: d4e49cb6ab6955743821083e2499381e, type: 3}
