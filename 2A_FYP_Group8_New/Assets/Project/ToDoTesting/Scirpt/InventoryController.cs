@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InventoryController : Singleton<InventoryController>
 {
@@ -28,6 +29,7 @@ public class InventoryController : Singleton<InventoryController>
     protected override void Awake()
     {
         base.Awake();
+        ScenceManager.DontDestroyOnLoad(gameObject);
         inventoryHighlight = GetComponent<InventoryHighlight>();
     }
 

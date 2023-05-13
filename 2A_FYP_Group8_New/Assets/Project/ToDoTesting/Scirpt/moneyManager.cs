@@ -6,18 +6,20 @@ using TMPro;
 
 public class moneyManager : Singleton<moneyManager>
 {
-    int money = 1000;
+    int money;
     public TMP_Text _moneyText;
+    public PlayerMoneySave playerMoney;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        money = playerMoney.GetMoney();
     }
 
     // Update is called once per frame
     void Update()
     {
+        money = playerMoney.GetMoney();
         _moneyText.text = money.ToString();
     }
 
@@ -28,11 +30,11 @@ public class moneyManager : Singleton<moneyManager>
 
     public void reduceMoney(int reduce)
     {
-        money -= reduce;
+        playerMoney.ReduceMoney(reduce);
     }
 
     public void increaseMoney(int increase)
     {
-        money += increase;
+        playerMoney.IncreaseMoney(increase);
     }
 }
