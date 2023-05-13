@@ -2650,6 +2650,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UserMoney
       objectReference: {fileID: 0}
+    - target: {fileID: 1324788275563837153, guid: 090f1dfaaaaac0a4fac7b36c43498c6b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 090f1dfaaaaac0a4fac7b36c43498c6b, type: 3}
 --- !u!1001 &5976075102049976088

@@ -10,7 +10,10 @@ public class SellUI : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            SetPickItem(InventoryController.Instance.SelectedItem);
+            SetPickItem(InventoryController.Instance.itemToHighlight);
+            if (nowPickItem == null)
+                return;
+
             transform.position = Input.mousePosition;
             transform.GetChild(0).gameObject.SetActive(true);
         }
@@ -32,9 +35,9 @@ public class SellUI : MonoBehaviour
             return;
 
         transform.GetChild(0).gameObject.SetActive(false);
-        moneyManager.Instance.increaseMoney(nowPickItem.GetComponent<ItemData>().price);
+        moneyManager.Instance.increaseMoney(nowPickItem.itemData.price);
         
-        Destroy(nowPickItem);
+        Destroy(nowPickItem.gameObject);
         ResetPickItem();
     }
 }
