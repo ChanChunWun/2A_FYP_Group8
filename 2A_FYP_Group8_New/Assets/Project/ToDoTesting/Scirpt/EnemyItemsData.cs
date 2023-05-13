@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyItemsData : MonoBehaviour
 {
 
-    public List<ItemData> dropItem;
+    public List<InventoryItem> dropItem;
     public int minDropNumber = 0;
     public int maxDropNumber = 3;
 
@@ -23,7 +23,7 @@ public class EnemyItemsData : MonoBehaviour
             return;
 
         int dropNumber = Random.Range(minDropNumber, maxDropNumber + 1);
-        List<ItemData> itemList = new List<ItemData>();
+        List<InventoryItem> itemList = new List<InventoryItem>();
         for (int i = 0; i < dropNumber; i++)
         {
             itemList.Add(dropItem[Random.Range(0, dropItem.Count)]);

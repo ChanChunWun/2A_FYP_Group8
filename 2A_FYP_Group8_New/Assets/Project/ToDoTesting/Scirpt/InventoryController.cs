@@ -139,6 +139,20 @@ public class InventoryController : Singleton<InventoryController>
 
     }
 
+    public void AddItems(List<InventoryItem> InItems)
+    {
+        for (int i = 0; i < InItems.Count; i++)
+        {
+            selectedRect = InItems[i].GetComponent<RectTransform>();
+            selectedRect.SetParent(canvasTransform);
+            selectedRect.SetAsLastSibling();
+            int selectedItemID = UnityEngine.Random.Range(0, items.Count);
+            InItems[i].Set(items[selectedItemID]);
+
+        }
+
+    }
+
     private void LeftMouseButtonPress()
     {
         Vector2Int tileGridPosition = GetTileGridPosition();
