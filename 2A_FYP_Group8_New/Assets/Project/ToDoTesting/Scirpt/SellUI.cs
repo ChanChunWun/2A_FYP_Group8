@@ -21,8 +21,7 @@ public class SellUI : MonoBehaviour
         if (nowPickItem == null)
             return;
 
-        int price = 10;
-        moneyManager.Instance.increaseMoney(price);
+        moneyManager.Instance.increaseMoney(nowPickItem.price);
         Destroy(nowPickItem);
         ResetPickItem();
     }
