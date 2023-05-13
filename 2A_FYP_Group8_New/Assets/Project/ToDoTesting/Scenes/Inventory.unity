@@ -516,9 +516,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 11400000, guid: f315ce79416686040a0e90592a5b8c0f, type: 2}
-  - {fileID: 11400000, guid: d0d148f1a269ca4489ce6fafba540c8c, type: 2}
+  - {fileID: 11400000, guid: 41e2cf55e125c23489395404580e3361, type: 2}
   - {fileID: 11400000, guid: ef5a4231edb175e4ea3ccabef827a94e, type: 2}
+  - {fileID: 11400000, guid: bb68401d653664d4999ab12f0da28574, type: 2}
   itemPrefab: {fileID: 4981218407975737725, guid: dfd2505950e09e84abb4b52ef530c463,
     type: 3}
   canvasTransform: {fileID: 1077014694}
@@ -658,7 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb27249919029243ad0cc8752d0e1c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSizeWidth: 10
+  gridSizeWidth: 20
   gridSizeHeight: 10
 --- !u!114 &1211067958
 MonoBehaviour:
