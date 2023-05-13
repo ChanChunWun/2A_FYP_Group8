@@ -1,25 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class InventoryController : Singleton<InventoryController>
 {
-    [HideInInspector]
-    private ItemGrid selectedItemGrid;
-    public ItemGrid SelectedItemGrid
-    {
-        get => selectedItemGrid;
-        set
-        {
-            selectedItemGrid = value;
-            inventoryHighlight.SetParent(value);
-        }
-    }
+    [SerializeField]
+    private ItemGrid itemGrid;
 
     public InventoryItem SelectedItem { get; private set; }
     RectTransform selectedRect;
     InventoryItem overlapItem;
-
+    CanvasGroup cg;
     [SerializeField] List<ItemData> items;
     [SerializeField] GameObject itemPrefab;
     [SerializeField] Transform canvasTransform;
@@ -31,10 +22,15 @@ public class InventoryController : Singleton<InventoryController>
         base.Awake();
         ScenceManager.DontDestroyOnLoad(gameObject);
         inventoryHighlight = GetComponent<InventoryHighlight>();
+        inventoryHighlight.SetParent(itemGrid);
+        cg = transform.GetChild(0).GetComponent<CanvasGroup>();
     }
 
     private void Update()
     {
+        if (cg.alpha == 0)
+            return;
+
         ItemIconDrag();
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -52,10 +48,11 @@ public class InventoryController : Singleton<InventoryController>
             RotateItem();
         }
 
-        if (selectedItemGrid == null) 
+        var eventSystem = EventSystem.current;
+        if (eventSystem == null || !eventSystem.IsPointerOverGameObject())
         {
             inventoryHighlight.Show(false);
-            return; 
+            return;
         }
 
         HandleHighlight();
@@ -69,24 +66,14 @@ public class InventoryController : Singleton<InventoryController>
     private void RotateItem()
         => SelectedItem?.Rotate();
 
-    private void InsertRandomItem()
-    {
-        if (selectedItemGrid == null) { return; }
-
-        CreateRandomItem();
-        InventoryItem itemToInsert = SelectedItem;
-        SelectedItem = null;
-        if (!InsertItem(itemToInsert))
-            Destroy(itemToInsert.gameObject);
-    }
-
+    
     private bool InsertItem(InventoryItem itemToInsert)
     {
-        Vector2Int? posOnGrid = selectedItemGrid.FindSpaceForObject(itemToInsert);
+        Vector2Int? posOnGrid = itemGrid.FindSpaceForObject(itemToInsert);
         if (posOnGrid == null)
             return false;
 
-        selectedItemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
+        itemGrid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
         return true;
     }
 
@@ -101,13 +88,13 @@ public class InventoryController : Singleton<InventoryController>
         oldPosition = positionOnGrid;
         if (SelectedItem == null)
         {
-            itemToHighlight = selectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
+            itemToHighlight = itemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
 
             if(itemToHighlight != null)
             {
                 inventoryHighlight.Show(true);
                 inventoryHighlight.SetSize(itemToHighlight);
-                inventoryHighlight.SetPosition(selectedItemGrid, itemToHighlight);
+                inventoryHighlight.SetPosition(itemGrid, itemToHighlight);
             }
             else
             {
@@ -116,14 +103,14 @@ public class InventoryController : Singleton<InventoryController>
         }
         else
         {
-            inventoryHighlight.Show(selectedItemGrid.BoundryCheck(
+            inventoryHighlight.Show(itemGrid.BoundryCheck(
                 positionOnGrid.x, 
                 positionOnGrid.y,
                 SelectedItem.WIDTH,
                 SelectedItem.HEIGHT)
                 );
             inventoryHighlight.SetSize(SelectedItem);
-            inventoryHighlight.SetPosition(selectedItemGrid, SelectedItem, positionOnGrid.x, positionOnGrid.y);
+            inventoryHighlight.SetPosition(itemGrid, SelectedItem, positionOnGrid.x, positionOnGrid.y);
         }
     }
 
@@ -140,19 +127,26 @@ public class InventoryController : Singleton<InventoryController>
         inventoryItem.Set(items[selectedItemID]);
 
     }
-
-    public void AddItems(List<InventoryItem> InItems)
+    private void InsertRandomItem()
     {
-        for (int i = 0; i < InItems.Count; i++)
+        if (itemGrid == null) { return; }
+
+        CreateRandomItem();
+        InventoryItem itemToInsert = SelectedItem;
+        SelectedItem = null;
+        if (!InsertItem(itemToInsert))
+            Destroy(itemToInsert.gameObject);
+    }
+
+    public void AddItems(List<ItemData> InItems)
+    {
+        foreach (var item in InItems)
         {
-            selectedRect = InItems[i].GetComponent<RectTransform>();
-            selectedRect.SetParent(canvasTransform);
-            selectedRect.SetAsLastSibling();
-            int selectedItemID = UnityEngine.Random.Range(0, items.Count);
-            InItems[i].Set(items[selectedItemID]);
-
+            InventoryItem inventoryItem = Instantiate(itemPrefab).GetComponent<InventoryItem>();
+            inventoryItem.Set(item);
+            if (!InsertItem(inventoryItem))
+                Destroy(inventoryItem.gameObject);
         }
-
     }
 
     private void LeftMouseButtonPress()
@@ -179,12 +173,12 @@ public class InventoryController : Singleton<InventoryController>
             position.y += (SelectedItem.HEIGHT - 1) * ItemGrid.tileSizeHeight / 2;
         }
 
-        return selectedItemGrid.GetTileGridPosition(position); 
+        return itemGrid.GetTileGridPosition(position); 
     }
 
     private void PlaceItem(Vector2Int tileGridPosition)
     {
-        bool complete = selectedItemGrid.PlaceItem(SelectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
+        bool complete = itemGrid.PlaceItem(SelectedItem, tileGridPosition.x, tileGridPosition.y, ref overlapItem);
         if (complete)
         {
             SelectedItem = null;
@@ -201,7 +195,7 @@ public class InventoryController : Singleton<InventoryController>
 
     private void PickUpItem(Vector2Int tileGridPosition)
     {
-        SelectedItem = selectedItemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
+        SelectedItem = itemGrid.PickUpItem(tileGridPosition.x, tileGridPosition.y);
 
         if (SelectedItem != null)
         {

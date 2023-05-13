@@ -23,6 +23,7 @@ public class UIShowItems : MonoBehaviour
     {
         type = "right";
         itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
+
         showIngOj = Instantiate(items[nowItem], afterStartPoint);
         showIngOj.transform.SetParent(transform);
     }
@@ -75,7 +76,7 @@ public class UIShowItems : MonoBehaviour
         else if (type == "left")
         {
             type = "right";
-            ScenceManager.goScene("TestTrack");
+            ScenceManager.goScene("MoonBase");
         }
     }
 

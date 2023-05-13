@@ -31,11 +31,9 @@ public class TurretAI : MonoBehaviour
                     var rotation = Quaternion.LookRotation(target.transform.position - transform.position);
                     Head.transform.rotation = Quaternion.Slerp(Head.transform.rotation, rotation, Time.deltaTime * 3);
                     RaycastHit hit;
-                    
-                    
-                    if (Physics.Raycast(transform.position, transform.forward * 5000, out hit))
+                    if (Physics.Raycast(transform.position, transform.forward * 2500, out hit))
                     {
-                        Debug.DrawRay(transform.position, transform.forward, Color.red, 5000);
+                        Debug.DrawRay(transform.position, transform.forward, Color.red, 2500);
                         if (hit.transform.gameObject == target)
                         {
                             Wp.Shoot(gameObject, null, null);
@@ -47,6 +45,7 @@ public class TurretAI : MonoBehaviour
         }
         else
         {
+            GetComponent<EnemyItemsData>().SetItems();
             Destroy(gameObject);
         }
     }

@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Project/ToDoTesting/Scenes/StartScene.unity
     guid: 5b1781c1f8fbf9343859b170369b3bec
+  - enabled: 1
+    path: Assets/Project/ToDoTesting/Scenes/MoonBase.unity
+    guid: 92b9bb44cad15db47bc42d457078cd48
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 7d14de2801088fb4ca6b716f0739ee3a,
       type: 2}

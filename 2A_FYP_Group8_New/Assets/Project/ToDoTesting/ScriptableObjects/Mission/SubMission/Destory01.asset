@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7ad1a0e350ee7a4697ac4e278d57dc4, type: 3}
-  m_Name: Main01
+  m_Name: Destory01
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   missionSceneName: MoonBase
-  missionID: aim01
+  missionID: des01
   missionName: Value Test
   missionDescribe: Human, here are your first mission,this mission is to test how
     many value to us. Go to "SceneName", there are you test location. Your mission

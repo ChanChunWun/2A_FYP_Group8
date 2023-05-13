@@ -4,31 +4,33 @@ using UnityEngine;
 
 public class EnemyItemsData : MonoBehaviour
 {
-
-    public List<InventoryItem> dropItem;
+    public List<ItemData> dropItem;
     public int minDropNumber = 0;
     public int maxDropNumber = 3;
 
     LifeSystem lf;
-    // Start is called before the first frame update
-    void Start()
+
+    public List<ItemData> itemList;
+
+    private void Awake()
     {
-        
+        lf = GetComponent<LifeSystem>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (!lf.dead)
-            return;
 
+    }
+
+    public void SetItems()
+    {
         int dropNumber = Random.Range(minDropNumber, maxDropNumber + 1);
-        List<InventoryItem> itemList = new List<InventoryItem>();
+        Debug.Log("Random: " + dropNumber);
+        itemList = new List<ItemData>();
         for (int i = 0; i < dropNumber; i++)
-        {
             itemList.Add(dropItem[Random.Range(0, dropItem.Count)]);
-        }
-        //InventoryItem.Instantiate.AddItmes(itmeList);
-        Destroy(this);
+        InventoryController.Instance.AddItems(itemList);
+        Destroy(gameObject);
     }
 }

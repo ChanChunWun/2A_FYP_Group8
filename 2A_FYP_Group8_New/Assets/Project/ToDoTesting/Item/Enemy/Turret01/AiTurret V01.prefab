@@ -302,6 +302,10 @@ MonoBehaviour:
   MissilePos: []
   Missiles: {fileID: 0}
   MissileRespawnTime: 10
+  LaserWeapon: 0
+  _Extents: 3
+  shrinker: {fileID: 0}
+  fulllaserTime: 2.5
 --- !u!82 &152832577363970135
 AudioSource:
   m_ObjectHideFlags: 0
@@ -408,6 +412,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7677000830636091588}
   - component: {fileID: 7044191908716950143}
+  - component: {fileID: -8229009399494364036}
+  - component: {fileID: -2794324914520506247}
   - component: {fileID: 7044191908716950137}
   - component: {fileID: 7044191908716950138}
   - component: {fileID: 7044191908716950136}
@@ -448,6 +454,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.2691116, y: 3.7646663, z: 1.5497633}
   m_Center: {x: -0.09245658, y: 1.7974573, z: -0.017249882}
+--- !u!114 &-8229009399494364036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7044191908716950142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bfd7ba0362114b4b93196c677a2a135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyName: Turret
+--- !u!114 &-2794324914520506247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7044191908716950142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be1ff17c08a97047b82dd5474408950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropItem:
+  - {fileID: 11400000, guid: ef5a4231edb175e4ea3ccabef827a94e, type: 2}
+  - {fileID: 11400000, guid: bb68401d653664d4999ab12f0da28574, type: 2}
+  minDropNumber: 0
+  maxDropNumber: 2
+  itemList: []
 --- !u!114 &7044191908716950137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,6 +497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b4774b6729a1e246b71af7abfccaafb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ai: 1
   MainBody: 1
   Armor: 60
   MaxHp: 500
