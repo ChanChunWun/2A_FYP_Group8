@@ -89,7 +89,7 @@ public class InventoryController : Singleton<InventoryController>
     }
 
     Vector2Int oldPosition;
-    InventoryItem itemToHighlight;
+    public InventoryItem itemToHighlight { get; private set; }
 
     private void HandleHighlight()
     {

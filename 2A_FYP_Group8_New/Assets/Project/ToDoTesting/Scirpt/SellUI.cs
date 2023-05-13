@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class SellUI : MonoBehaviour
 {
-    ItemData nowPickItem;
+    InventoryItem nowPickItem;
 
-    public void SetPickItem(ItemData item)
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            SetPickItem(InventoryController.Instance.SelectedItem);
+            transform.position = Input.mousePosition;
+            transform.GetChild(0).gameObject.SetActive(true);
+        }
+    }
+
+    public void SetPickItem(InventoryItem item)
     {
         nowPickItem = item;
     }
@@ -21,7 +31,9 @@ public class SellUI : MonoBehaviour
         if (nowPickItem == null)
             return;
 
-        moneyManager.Instance.increaseMoney(nowPickItem.price);
+        transform.GetChild(0).gameObject.SetActive(false);
+        moneyManager.Instance.increaseMoney(nowPickItem.GetComponent<ItemData>().price);
+        
         Destroy(nowPickItem);
         ResetPickItem();
     }
