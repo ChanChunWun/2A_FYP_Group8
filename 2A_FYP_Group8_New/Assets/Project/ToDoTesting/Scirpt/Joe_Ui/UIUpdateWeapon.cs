@@ -12,9 +12,12 @@ public class UIUpdateWeapon : MonoBehaviour
     public List<GameObject> items;
     public Transform beforeStartPoint;
     public Transform afterStartPoint;
+    
     public TMP_Text _text;
     public TMP_Text _levelText;
     public TMP_Text _nameText;
+    public TMP_Text _nextText;
+
     public Transform stopPoint;
     public Transform levelIndicatorSpawnTransform;
 
@@ -38,6 +41,7 @@ public class UIUpdateWeapon : MonoBehaviour
     void Update()
     {
         _text.text = "Cose: " + ((items[nowItem].GetComponent<ItemWeaponSystem>().Level + 1) * 500).ToString();
+        _nextText.text = type + " Weapon";
         float step = 50 * Time.deltaTime;
         //Debug.Log(step);
         showIngOj.transform.position = Vector3.MoveTowards(showIngOj.transform.position, stopPoint.position, step);
@@ -84,7 +88,7 @@ public class UIUpdateWeapon : MonoBehaviour
         else if (type == "left")
         {
             type = "right";
-            ScenceManager.goScene("TestTrack");
+            ScenceManager.goScene("MoonBase");
         }
 
         ShowWeaponLevel();
@@ -127,5 +131,10 @@ public class UIUpdateWeapon : MonoBehaviour
         moneyManager.Instance.reduceMoney(needs);      
         items[nowItem].GetComponent<ItemWeaponSystem>().Level += 1;
         ShowWeaponLevel();
+    }
+
+    public void ChoosedItem()
+    {
+        itemManager.SetWeapon(type, showIngOj);
     }
 }

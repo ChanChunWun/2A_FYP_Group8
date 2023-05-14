@@ -37,4 +37,14 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1.0f;
         Cursor.lockState = CursorLockMode.Locked;
     }
+
+    public void ShowBackpack()
+    {
+        InventoryController.Instance.cg.alpha = 1;
+    }
+
+    public void HideBackpack()
+    {
+        InventoryController.Instance.cg.alpha = 0;
+    }
 }

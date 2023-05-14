@@ -10,7 +10,7 @@ public class InventoryController : Singleton<InventoryController>
     public InventoryItem SelectedItem { get; private set; }
     RectTransform selectedRect;
     InventoryItem overlapItem;
-    CanvasGroup cg;
+    public CanvasGroup cg;
     [SerializeField] List<ItemData> items;
     [SerializeField] GameObject itemPrefab;
     [SerializeField] Transform canvasTransform;
