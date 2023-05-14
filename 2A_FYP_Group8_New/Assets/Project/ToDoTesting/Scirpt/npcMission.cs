@@ -21,7 +21,30 @@ public class npcMission : ScriptableObject
     // Update is called once per frame
     void Update()
     {
-        
+        if (mainMissionCount + 1 > mainMissionList.Length)
+        {
+            return;
+        }
+            
+
+        if (mainMissionList[mainMissionCount].isDone)
+        {
+            MainMissionPush();
+        }
+    }
+
+    public missions GetMainMission()
+    {
+        if (mainMissionCount + 1 > mainMissionList.Length)
+        {
+            return null;
+        }
+        else
+        {
+            return mainMissionList[mainMissionCount];
+        }
+
+
     }
 
     void SpawnMission(missions showMis)
