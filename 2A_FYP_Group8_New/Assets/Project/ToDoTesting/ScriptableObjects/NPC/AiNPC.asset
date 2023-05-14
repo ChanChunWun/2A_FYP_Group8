@@ -15,6 +15,7 @@ MonoBehaviour:
   prefebMissionUI: {fileID: 0}
   mainMissionList:
   - {fileID: 11400000, guid: 19d9f40cb1f264940b279a3f99318c13, type: 2}
-  minorMissionList: []
+  minorMissionList:
+  - {fileID: 11400000, guid: f574e9e6f2b505c4fa17899c5dd36b52, type: 2}
   showMinorMissionList: []
   showMissionNumber: 3

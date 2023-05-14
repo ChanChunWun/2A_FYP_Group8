@@ -13,6 +13,7 @@ public class missionUI : MonoBehaviour
     public TMP_Text text_Describe;
     public TMP_Text text_TargetScene;
     public TMP_Text text_Target;
+    public TMP_Text text_Number;
     public TMP_Text text_Award;
     public Button btn_Get;
     public Button btn_Finish;
@@ -56,7 +57,8 @@ public class missionUI : MonoBehaviour
         text_Describe.text = showMission.missionDescribe;
         text_Name.text = showMission.missionName;
         text_Target.text = showMission.missionTargetText;
-        text_Award.text = "Award: " + showMission.missionAward.ToString(); 
+        text_Award.text = "Award: " + showMission.missionAward.ToString();
+        text_Number.text = showMission.killedNumber + " / " + showMission.killNumber;
         
     }
 
@@ -73,6 +75,7 @@ public class missionUI : MonoBehaviour
         text_Name.text = "";
         text_Target.text = "";
         text_Award.text = "";
+        text_Number.text = "";
 
     }
 
@@ -80,6 +83,12 @@ public class missionUI : MonoBehaviour
     {
         if (showMission == null)
             return;
+
+        foreach (missions mission in MissionSaver.Instance.GetMissionList())
+        {
+            if (mission == showMission)
+                return;
+        }
 
         Debug.Log("Set Mission: " + showMission.missionName);
         MissionSaver.Instance.SetMission(showMission);

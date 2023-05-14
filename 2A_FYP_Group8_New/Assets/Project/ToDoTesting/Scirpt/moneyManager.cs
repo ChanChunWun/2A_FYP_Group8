@@ -20,7 +20,7 @@ public class moneyManager : Singleton<moneyManager>
     void Update()
     {
         money = playerMoney.GetMoney();
-        _moneyText.text = money.ToString();
+        _moneyText.text = "$" + money.ToString();
 
         if (SceneManager.GetActiveScene().name != "StartScene")
         {

@@ -40,7 +40,7 @@ public class UIUpdateWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _text.text = "Cose: " + ((items[nowItem].GetComponent<ItemWeaponSystem>().Level + 1) * 500).ToString();
+        _text.text = "Cost: " + ((items[nowItem].GetComponent<ItemWeaponSystem>().Level + 1) * 500).ToString();
         _nextText.text = type + " Weapon";
         float step = 50 * Time.deltaTime;
         //Debug.Log(step);

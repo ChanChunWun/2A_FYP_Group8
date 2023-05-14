@@ -521,7 +521,7 @@ MonoBehaviour:
   ExEff: {fileID: 6698719010139250871, guid: 2c99dedadabc6c9409a02b7f5e5ab1b1, type: 3}
   target: {fileID: 0}
   shootPoint: {fileID: 7854443681343722044}
-  canShootRange: 500
+  canShootRange: 1500
 --- !u!82 &7044191908716950136
 AudioSource:
   m_ObjectHideFlags: 0

@@ -10,20 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7ad1a0e350ee7a4697ac4e278d57dc4, type: 3}
-  m_Name: Main01
+  m_Name: Ann01
   m_EditorClassIdentifier: 
   type: 0
   missionSceneName: MoonBase
-  missionID: aim01
-  missionName: Value Test
-  missionDescribe: Human, here are your first mission,this mission is to test how
-    many value to us. Go to "Moon Base", there are you test location. Your mission
-    target is annihilate 6 testing turrets.
-  missionTargetText: Destory turrets
-  missionAward: 500
-  missionTargetName: Turret
+  missionID: aia01
+  missionName: Drone Test
+  missionDescribe: Human, we need to test our drones, try to destroy them, then get
+    your award.
+  missionTargetText: Destory drone
+  missionAward: 200
+  missionTargetName: Drone
   isDone: 0
-  killNumber: 6
+  killNumber: 4
   killedNumber: 0
   destroyObject: []
   timeLimited: 9999

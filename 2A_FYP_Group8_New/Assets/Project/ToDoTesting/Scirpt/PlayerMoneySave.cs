@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerMoneySave : ScriptableObject
 {
     string playerName;
+    [SerializeField]
     int money;
     // Start is called before the first frame update
     public void SetMoney(int mon)
