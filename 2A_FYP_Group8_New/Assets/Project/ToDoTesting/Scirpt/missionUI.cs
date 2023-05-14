@@ -60,8 +60,27 @@ public class missionUI : MonoBehaviour
         
     }
 
+    public void ResetMission()
+    {
+        if (showMission == null)
+            return;
+
+        showMission = null;
+        text_Name.text = ""; ;
+        text_MissionType.text = "";
+        text_TargetScene.text = "";
+        text_Describe.text = "";
+        text_Name.text = "";
+        text_Target.text = "";
+        text_Award.text = "";
+
+    }
+
     public void SaveAndGetMission()
     {
+        if (showMission == null)
+            return;
+
         Debug.Log("Set Mission: " + showMission.missionName);
         MissionSaver.Instance.SetMission(showMission);
     }

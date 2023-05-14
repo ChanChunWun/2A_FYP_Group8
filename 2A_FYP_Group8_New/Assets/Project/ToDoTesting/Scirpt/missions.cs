@@ -53,13 +53,12 @@ public class missions : ScriptableObject
         {
             Debug.Log("Add Kill number");
             Debug.Log(SceneManager.GetActiveScene().name);
+            if (killedNumber < killNumber)
                 killedNumber += 1;
 
             if (killedNumber >= killNumber)
             {
-                moneyManager.Instance.increaseMoney((int)missionAward);
-                MissionSaver.Instance.DestoryMission(this);
-                Reset();
+                isDone = true;
             }
         }
 

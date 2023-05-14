@@ -21,6 +21,8 @@ public class npcMission : ScriptableObject
     // Update is called once per frame
     void Update()
     {
+        //DestoryMissionButton();
+
         if (mainMissionCount + 1 > mainMissionList.Length)
         {
             return;
@@ -90,6 +92,8 @@ public class npcMission : ScriptableObject
             minorMissionIDs.Add(showMinorMissionList[i].missionID);
         }
     }
+
+    
 
     void MainMissionPush()
     {
