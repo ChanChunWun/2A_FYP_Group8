@@ -6301,7 +6301,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game
+  m_text: Dereliction 3077
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 97cad3947e978b9499edfd85afd1fcdc, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: cd47a83b163dceb4cbd859f841f48bf4, type: 2}
@@ -6328,8 +6328,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
