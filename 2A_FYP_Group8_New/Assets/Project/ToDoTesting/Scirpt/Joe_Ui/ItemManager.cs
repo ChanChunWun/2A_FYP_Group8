@@ -20,6 +20,10 @@ public class ItemManager : MonoBehaviour
     {
         
     }
+    public void ResetType()
+    {
+        
+    }
 
     public void SetWeapon(string type, GameObject weapon)
     {

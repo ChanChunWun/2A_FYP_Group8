@@ -23,7 +23,7 @@ MonoBehaviour:
   missionAward: 500
   missionTargetName: Turret
   isDone: 0
-  killNumber: 12
+  killNumber: 1
   killedNumber: 0
   destroyObject: []
   timeLimited: 9999

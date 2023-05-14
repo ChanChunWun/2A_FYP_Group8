@@ -47,6 +47,11 @@ public class UIUpdateWeapon : MonoBehaviour
         showIngOj.transform.position = Vector3.MoveTowards(showIngOj.transform.position, stopPoint.position, step);
     }
 
+    public void resetType()
+    {
+        type = "right";
+    }
+
     public void ShowAfterItem()
     {
         Destroy(showIngOj);

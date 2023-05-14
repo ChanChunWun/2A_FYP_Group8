@@ -17,7 +17,7 @@ public class NpcShowMission : MonoBehaviour
     {
         if (npc.mainMissionList.Length > 0)
         {
-            SpawnMissionButton(npc.mainMissionList);
+            SpawnMainMissionButton(npc.GetMainMission());
             //missionui.showMission = npc.mainMissionList[0];
             //missionui.ShowMissionStart();
         }
@@ -34,6 +34,18 @@ public class NpcShowMission : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+    }
+    void SpawnMainMissionButton(missions mission)
+    {
+
+        if (mission == null)
+            return;
+
+        missionui.ShowMissionStart(mission);
+        MissionButton btn_mission = Instantiate(btn_missionPrefab.gameObject, btnSpawnTransform).GetComponent<MissionButton>();
+        btn_mission.setName(mission);
+        btn_mission.SetMissionUI(missionui);
 
     }
 
