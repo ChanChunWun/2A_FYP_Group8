@@ -20,8 +20,8 @@ MonoBehaviour:
     many value to us. Go to "SceneName", there are you test location. Your mission
     target is annihilate 12 testing turrets.
   missionTargetText: Testing turrets
-  missionAward: 1000
-  missionTargetName: 
+  missionAward: 500
+  missionTargetName: Turret
   isDone: 0
   killNumber: 12
   killedNumber: 0

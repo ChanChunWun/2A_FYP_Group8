@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using UnityEditor;
 
@@ -48,11 +49,20 @@ public class missions : ScriptableObject
     //Funion
     public void IncreaseKillNumber()
     {
-        if (killedNumber < killNumber)
-            killedNumber++;
-        else
-            isDone = true;
-        
+        if (SceneManager.GetActiveScene().name == missionSceneName)
+        {
+            Debug.Log("Add Kill number");
+            Debug.Log(SceneManager.GetActiveScene().name);
+                killedNumber += 1;
+
+            if (killedNumber >= killNumber)
+            {
+                moneyManager.Instance.increaseMoney((int)missionAward);
+                MissionSaver.Instance.DestoryMission(this);
+                Reset();
+            }
+        }
+
     }
 
     public void Reset()

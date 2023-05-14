@@ -23,6 +23,7 @@ public class MissionSaver : Singleton<MissionSaver>
     {
         takenMissions.Add(mission);
     }
+
     public void DestoryMission(missions mission)
     {
         for (int i = 0; i < takenMissions.Count; i++)

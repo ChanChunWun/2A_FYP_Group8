@@ -72,6 +72,7 @@ public class DroneAI : MonoBehaviour
         if (lfSys.dead)
         {
             GetComponent<EnemyItemsData>().SetItems();
+            //MissionSaver.Instance.MissionDoing(GetComponent<EnemyAIName>().enemyName);
             Destroy(gameObject);
         }
 
