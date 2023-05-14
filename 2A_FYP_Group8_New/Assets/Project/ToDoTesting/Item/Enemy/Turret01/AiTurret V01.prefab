@@ -482,6 +482,7 @@ MonoBehaviour:
   dropItem:
   - {fileID: 11400000, guid: ef5a4231edb175e4ea3ccabef827a94e, type: 2}
   - {fileID: 11400000, guid: bb68401d653664d4999ab12f0da28574, type: 2}
+  - {fileID: 11400000, guid: 368dbf9ebf0709e46973352a3cdb86f1, type: 2}
   minDropNumber: 0
   maxDropNumber: 2
   itemList: []
