@@ -8,9 +8,12 @@ public class TurretAI : MonoBehaviour
     public GameObject Head;
     public GameObject ExEff;
     public Transform target;
+    public Transform shootPoint;
+    public float canShootRange = 500;
 
     TurretWeaponSystem Wp;
     LifeSystem lf;
+    RaycastHit hit;
 
     void Start()
     {
@@ -28,15 +31,17 @@ public class TurretAI : MonoBehaviour
             {
                 if (Vector3.Distance(target.transform.position, transform.position) < 500)
                 {
-                    var rotation = Quaternion.LookRotation(target.transform.position - transform.position);
+                    var rotation = Quaternion.LookRotation(target.transform.position - Head.transform.position);
                     Head.transform.rotation = Quaternion.Slerp(Head.transform.rotation, rotation, Time.deltaTime * 3);
-                    RaycastHit hit;
-                    if (Physics.Raycast(transform.position, transform.forward * 2500, out hit))
+                    
+                    Debug.DrawLine(shootPoint.position, shootPoint.transform.forward * canShootRange, Color.red);
+
+                    if (Physics.Raycast(shootPoint.position, shootPoint.transform.forward * canShootRange, out hit))
                     {
-                        Debug.DrawRay(transform.position, transform.forward, Color.red, 2500);
-                        if (hit.transform.gameObject == target)
+                        Debug.Log("Hit" + hit.transform.name);
+                        if (hit.transform.tag.Equals("Player"))
                         {
-                            Wp.Shoot(gameObject, null, null);
+                            Wp.GetComponent<TurretWeaponSystem>().Shoot(gameObject, shootPoint, null);
                         }
                     }
                 }
@@ -46,6 +51,7 @@ public class TurretAI : MonoBehaviour
         else
         {
             GetComponent<EnemyItemsData>().SetItems();
+            //MissionSaver.Instance.MissionDoing(GetComponent<EnemyAIName>().enemyName);
             Destroy(gameObject);
         }
     }

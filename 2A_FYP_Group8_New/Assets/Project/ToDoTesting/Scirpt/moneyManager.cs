@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 
 public class moneyManager : Singleton<moneyManager>
 {
@@ -21,6 +21,15 @@ public class moneyManager : Singleton<moneyManager>
     {
         money = playerMoney.GetMoney();
         _moneyText.text = money.ToString();
+
+        if (SceneManager.GetActiveScene().name != "StartScene")
+        {
+            _moneyText.alpha = 0;
+        }
+        else
+        {
+            _moneyText.alpha = 1;
+        }
     }
 
     public int getMoney()

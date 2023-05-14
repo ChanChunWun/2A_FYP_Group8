@@ -500,7 +500,7 @@ MonoBehaviour:
   ai: 1
   MainBody: 1
   Armor: 60
-  MaxHp: 500
+  MaxHp: 150
   nonMainHit: 0
   LinkBody: {fileID: 0}
   dead: 0
@@ -519,6 +519,8 @@ MonoBehaviour:
   Head: {fileID: 5813769670999392517}
   ExEff: {fileID: 6698719010139250871, guid: 2c99dedadabc6c9409a02b7f5e5ab1b1, type: 3}
   target: {fileID: 0}
+  shootPoint: {fileID: 7854443681343722044}
+  canShootRange: 500
 --- !u!82 &7044191908716950136
 AudioSource:
   m_ObjectHideFlags: 0
