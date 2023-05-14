@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Project/ToDoTesting/Scenes/RaytestUI.unity
     guid: 61e948d322944dc4493dd041746d363b
-  - enabled: 1
+  - enabled: 0
     path: Assets/UnityTechnologies/VehicleTools/Scenes/TestTrack.unity
     guid: 39dd73fe576aa7f46b6735a5fa664b0e
   - enabled: 0
@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Project/ToDoTesting/Scenes/JoeTesting.unity
     guid: 4a1eb81420c5dd84c8fa34e9a1b10c5c
+  - enabled: 1
+    path: Assets/Project/ToDoTesting/Scenes/AlanTimeLine.unity
+    guid: 3c1cb9d0fedf87343b9fcae5f8988323
   - enabled: 1
     path: Assets/Project/ToDoTesting/Scenes/StartScene.unity
     guid: 5b1781c1f8fbf9343859b170369b3bec
